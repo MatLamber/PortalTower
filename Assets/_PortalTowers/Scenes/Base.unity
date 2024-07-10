@@ -7127,7 +7127,8 @@ MonoBehaviour:
   scenarios:
   - {fileID: 1189894066}
   - {fileID: 1074277401}
-  enemyStartPoint: {fileID: 0}
+  enemyStartPoint: {fileID: 839797606}
+  enemiesPerLevel: {fileID: 11400000, guid: c9a347a4b5e904e2c838f7d49ed1ff80, type: 2}
 --- !u!4 &1486567937
 Transform:
   m_ObjectHideFlags: 0

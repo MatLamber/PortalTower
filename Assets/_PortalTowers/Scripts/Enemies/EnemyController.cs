@@ -24,7 +24,15 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
+        navMesh.SetDestination(Vector3.zero);
+        StartCoroutine(StopInitialNavigation());
         EventsManager.Instance.ActionEnemyKilled += OnHit;
+    }
+
+    IEnumerator StopInitialNavigation()
+    {
+        yield return new WaitForSeconds(0.01f);
+        navMesh.isStopped = true;
     }
 
     private void OnDestroy()
@@ -34,6 +42,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        if(target == null) return;
         float currentDistanceFromTarget = Vector3.Distance(transform.position, target.position);
         if (currentDistanceFromTarget <= effectiveDistance && !follow)
         {
