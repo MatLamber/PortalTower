@@ -12,13 +12,13 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
-        EventsManager.Instance.ActionEnemyKilled += EnableGeneralCamera;
+        //EventsManager.Instance.ActionEnemyKilled += EnableGeneralCamera;
         EventsManager.Instance.ActionDoorCrossed += OnDoorCrossed;
     }
 
     private void OnDestroy()
     {
-        EventsManager.Instance.ActionEnemyKilled -= EnableGeneralCamera;
+        //EventsManager.Instance.ActionEnemyKilled -= EnableGeneralCamera;
         EventsManager.Instance.ActionDoorCrossed -= OnDoorCrossed;
     }
 

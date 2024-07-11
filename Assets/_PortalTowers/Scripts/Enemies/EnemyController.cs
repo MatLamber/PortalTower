@@ -14,7 +14,13 @@ public class EnemyController : MonoBehaviour
     [Header("Settings")] 
     [SerializeField] private float effectiveDistance;
     private bool follow;
+    private bool canBeDestroyed;
 
+    public bool CanBeDestroyed
+    {
+        get => canBeDestroyed;
+        set => canBeDestroyed = value;
+    }
 
     private void Awake()
     {
@@ -57,8 +63,13 @@ public class EnemyController : MonoBehaviour
 
     private void OnHit(GameObject enemyContainer)
     {
-        
-        if(enemyContainer.name.Equals(gameObject.name))
-            Destroy(gameObject);
+        if (enemyContainer.name.Equals(gameObject.name))
+            StartCoroutine(DestroyEnemy());
+    }
+
+    IEnumerator DestroyEnemy()
+    {
+        yield return new WaitUntil( () => canBeDestroyed);
+        Destroy(gameObject);
     }
 }

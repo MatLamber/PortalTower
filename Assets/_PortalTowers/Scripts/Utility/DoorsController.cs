@@ -6,13 +6,13 @@ public class DoorsController : MonoBehaviour
 
     private void Start()
     {
-        EventsManager.Instance.ActionEnemyKilled += ShowDoors;
+       // EventsManager.Instance.ActionEnemyKilled += ShowDoors;
         EventsManager.Instance.ActionDoorCrossed += HideDoors;
     }
 
     private void OnDestroy()
     {
-        EventsManager.Instance.ActionEnemyKilled -= ShowDoors;
+        //EventsManager.Instance.ActionEnemyKilled -= ShowDoors;
         EventsManager.Instance.ActionDoorCrossed -= HideDoors;
     }
 

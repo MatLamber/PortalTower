@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CharacterController characterController;
     [SerializeField] private Transform nextStartPosition;
     private PlayerAnimator playerAnimator;
-    
+    private List<Transform> targets = new List<Transform>();
     
     [Header("Settings")] 
     [SerializeField] private float moveSpeed;
@@ -41,9 +41,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!enemyLocked) return;
-        enemyLocked = true;
-        EventsManager.Instance.OnEnemyOnRange(enemyTransform);
+        if (targets.Count <= 0) return;
+        //enemyLocked = true;
+        EventsManager.Instance.OnEnemyOnRange(targets[0]);
     }
 
     private void Move(Vector3 move)
@@ -57,10 +57,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals(enemyTag) && !enemyLocked)
+        /*if (other.tag.Equals(enemyTag) && !enemyLocked)
         {
             enemyLocked = true;
             enemyTransform = other.transform;
+        }*/
+
+
+        if (other.tag.Equals(enemyTag))
+        {
+            if (!targets.Contains(other.transform))
+            {
+                targets.Add(other.transform);
+            }
+        }
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (targets.Contains(other.transform))
+        {
+            targets.Remove(other.transform);
         }
     }
 
@@ -77,6 +95,9 @@ public class PlayerController : MonoBehaviour
     private void OnEnemyOutOfRange(GameObject enemyContainer = null)
     {
         enemyLocked = false;
+        GameObject targetToDestroy = enemyContainer.transform.GetChild(0).gameObject;
+        targets.Remove(targetToDestroy.transform);
+        enemyContainer.GetComponent<EnemyController>().CanBeDestroyed = true;
         EventsManager.Instance.OnEnemyOutOfRange();
     }
 }
