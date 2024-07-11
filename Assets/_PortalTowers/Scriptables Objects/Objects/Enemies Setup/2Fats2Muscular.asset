@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 2Fats2Muscular
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 373ac2185ce8a44f79b51e4121c88919, type: 2}
+  - {fileID: 11400000, guid: 373ac2185ce8a44f79b51e4121c88919, type: 2}
+  - {fileID: 11400000, guid: f548a267c8ca44267ae8e1ab3c526725, type: 2}
+  - {fileID: 11400000, guid: f548a267c8ca44267ae8e1ab3c526725, type: 2}
