@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [Header("Settings")] 
     [SerializeField] private float moveSpeed;
 
+    private string enemyTagName = "Enemy";
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -37,5 +39,11 @@ public class PlayerController : MonoBehaviour
         movementVector.y = 0;
         characterController.Move(movementVector);
         animator.ManageAnimations(movementVector);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag.Equals(enemyTagName))
+            animator.LockToTarget(other.transform);
     }
 }

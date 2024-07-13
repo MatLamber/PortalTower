@@ -23,8 +23,10 @@ public class EventsManager : MonoBehaviour
     public Action<Vector3> eventJoyStrickMove;
     public Action eventPlayerShoot;
     public Action <int> eventSwitchedWepon;
+    public Action<bool> eventEnemyLockedIn;
     public void OnJoystickMove(Vector3 moveVector) => eventJoyStrickMove?.Invoke(moveVector);
     public void OnPlayerShoot() => eventPlayerShoot?.Invoke();
     public void OnSwitchedWeapon(int weaponIDonAnimationLayer) => eventSwitchedWepon?.Invoke(weaponIDonAnimationLayer);
+    public void OnEnemyLockedIn(bool state) => eventEnemyLockedIn?.Invoke(state);
 
 }

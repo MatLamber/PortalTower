@@ -10,20 +10,22 @@ public class PlayerAnimator : MonoBehaviour
     private GameObject prefab;
     private Transform prefabTransform;
     private Animator animator;
-    [SerializeField] private Transform target;
+   [SerializeField] private Transform target;
+    private Transform targetFolow;
 
     [Header("Settings")] 
-    [SerializeField] private int handGunLayer;
-    [SerializeField] private int rifleLayer;
-    [SerializeField] private int rocketLauncherLayer;
     private string xVelocityParamter = "xVelocity";
     private string zVelocityParamter = "zVelocity";
     private string moveSpeedParamter = "moveSpeed";
     private string isRunningParamter = "isRunning";
+    private string hasHandgunParameter = "hasHandGun";
+    private string hasRifleParameter = "hasRifle";
+    private string hasRocketLauncherParamter = "hasRocketLauncher";
     private string shootParamter = "Shoot";
-    private bool onTarget;
+    [SerializeField] private bool onTarget;
     Vector3 targetLookAt;
     private float runnigThreshold = 1f;
+    private bool isArmed;
 
 
     private void Awake()
@@ -35,15 +37,21 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Start()
     {
-        EventsManager.Instance.eventPlayerShoot += ShootAnimation;
         EventsManager.Instance.eventSwitchedWepon += SwitchAnimationLayer;
     }
 
+
     private void OnDestroy()
     {
-        EventsManager.Instance.eventPlayerShoot -= ShootAnimation;
-        EventsManager.Instance.eventSwitchedWepon += SwitchAnimationLayer;
+        EventsManager.Instance.eventSwitchedWepon -= SwitchAnimationLayer;
     }
+
+    private void Update()
+    {
+        if (onTarget)
+            target.transform.position = targetFolow.transform.position;
+    }   
+
 
     public void ManageAnimations(Vector3 movementVector)
     {
@@ -61,7 +69,15 @@ public class PlayerAnimator : MonoBehaviour
         prefabTransform.forward = targetLookAt;
         if (onTarget)
         {
-            AimWhileMoving(movementVector, moveSpeed);
+            if (isArmed)
+            {
+                AimWhileMoving(movementVector, moveSpeed);
+            }
+            else
+            {
+                animator.SetFloat(moveSpeedParamter,moveSpeed);
+            }
+
         }
         else
         {
@@ -107,9 +123,27 @@ public class PlayerAnimator : MonoBehaviour
         TurnOffAllAnimationLayers();
         if (weaponIdOnAnimationLayer != 0)
         {
-            onTarget = true;
+            isArmed = true;
             animator.SetLayerWeight(weaponIdOnAnimationLayer,1);
             animator.SetLayerWeight(weaponIdOnAnimationLayer+1,1);
+            switch (weaponIdOnAnimationLayer)
+            {
+                case 1:
+                    animator.SetBool(hasHandgunParameter,true);
+                    animator.SetBool(hasRifleParameter,false);
+                    animator.SetBool(hasRocketLauncherParamter,false);
+                    break;
+                case 3:
+                    animator.SetBool(hasHandgunParameter,false);
+                    animator.SetBool(hasRifleParameter,true);
+                    animator.SetBool(hasRocketLauncherParamter,false);
+                    break;
+                case 5:
+                    animator.SetBool(hasHandgunParameter,false);
+                    animator.SetBool(hasRifleParameter,false);
+                    animator.SetBool(hasRocketLauncherParamter,true);
+                    break;
+            }
         }
         else
         {
@@ -120,9 +154,30 @@ public class PlayerAnimator : MonoBehaviour
 
     private void TurnOffAllAnimationLayers()
     {
+        isArmed = false;
         for (int i = 1; i < animator.layerCount; i++)
         {
             animator.SetLayerWeight(i,0);
         }
+    }
+
+    public void LockToTarget(Transform newTarget)
+    {
+        if (!onTarget)
+        {
+            if (newTarget != null)
+            {
+                onTarget = true;
+                targetFolow = newTarget;
+            }
+        }
+        EventsManager.Instance.OnEnemyLockedIn(onTarget);
+    }
+
+    private void FreeTargetLocking()
+    {
+        onTarget = false;
+        target = null;
+        EventsManager.Instance.OnEnemyLockedIn(onTarget);
     }
 }

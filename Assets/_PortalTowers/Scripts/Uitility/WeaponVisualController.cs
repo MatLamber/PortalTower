@@ -12,7 +12,7 @@ public class WeaponVisualController : MonoBehaviour
     [SerializeField] private Transform shotgun;
 
     [SerializeField] private List<Transform> weaponsTransfrom = new List<Transform>();
-
+    
     [SerializeField] private MultiAimConstraint headAim;
     [SerializeField] private MultiAimConstraint gunAim;
     
@@ -39,6 +39,12 @@ public class WeaponVisualController : MonoBehaviour
     private void Start()
     {
         SwitchOnGuns();
+        EventsManager.Instance.eventEnemyLockedIn += UpdateTargetLockedInState;
+    }
+
+    private void OnDestroy()
+    {
+        EventsManager.Instance.eventEnemyLockedIn -= UpdateTargetLockedInState;
     }
 
     private void Update()
@@ -113,6 +119,24 @@ public class WeaponVisualController : MonoBehaviour
         foreach (Transform weaponTransform in weaponsTransfrom)
         {
             weaponTransform.gameObject.SetActive(false);
+        }
+    }
+
+
+    private void UpdateTargetLockedInState(bool state)
+    {
+
+        if (state)
+        {
+            headAim.weight = 1;
+            gunAim.weight = 1;
+            
+        }
+        else
+        {
+            headAim.weight = 0;
+            gunAim.weight = 0;
+            
         }
     }
 

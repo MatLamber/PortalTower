@@ -57,6 +57,12 @@ MonoBehaviour:
   - {fileID: 370963478038489141}
   - {fileID: 370963476789959639}
   - {fileID: 370963476613775838}
+  headAim: {fileID: 0}
+  gunAim: {fileID: 0}
+  leftHandIK: {fileID: 0}
+  leftHandTarget: {fileID: 0}
+  leftHandIkPositions: []
+  leftHandIkRotaions: []
 --- !u!1001 &1486328256938479617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -173,6 +179,14 @@ PrefabInstance:
     - target: {fileID: 2940960592320846807, guid: 62181b5971c68db40b04f5325f5526a4, type: 3}
       propertyPath: m_Name
       value: Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 5361071000331870363, guid: 62181b5971c68db40b04f5325f5526a4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.149
+      objectReference: {fileID: 0}
+    - target: {fileID: 5361071000331870363, guid: 62181b5971c68db40b04f5325f5526a4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.367
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62181b5971c68db40b04f5325f5526a4, type: 3}

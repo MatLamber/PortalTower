@@ -54,7 +54,7 @@ public class Joystick : MonoBehaviour
     {
         Vector3 currentPostion = Input.mousePosition;
         Vector3 direction = currentPostion - clickedPostion;
-        float moveMagnitude = direction.magnitude; //* moveFactor / Screen.width;
+        float moveMagnitude = direction.magnitude * moveFactor / Screen.width;
         moveMagnitude = Mathf.Min(moveMagnitude, joystickOutline.rect.width/2);
         move = direction.normalized * moveMagnitude;
         Vector3 targetPosition = clickedPostion + move;
