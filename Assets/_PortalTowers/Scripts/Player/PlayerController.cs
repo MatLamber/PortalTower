@@ -1,103 +1,41 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using ScriptableObjectArchitecture;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController), typeof(PlayerAnimator))]
+[RequireComponent(typeof(CharacterController),typeof(PlayerAnimator),typeof(PlayerWeaponController))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Elements")]
-    [SerializeField] private CharacterController characterController;
-    [SerializeField] private Transform nextStartPosition;
-    private PlayerAnimator playerAnimator;
-    private List<Transform> targets = new List<Transform>();
-    
+    private CharacterController characterController;
+    private PlayerAnimator animator;
+
+
     [Header("Settings")] 
     [SerializeField] private float moveSpeed;
-    private string enemyTag = "Enemy";
-    private string doorTag = "Door";
-    private bool enemyLocked;
-    private Transform enemyTransform;
-
 
     private void Awake()
     {
-        playerAnimator = GetComponent<PlayerAnimator>();
+        characterController = GetComponent<CharacterController>();
+        animator = GetComponent<PlayerAnimator>();
     }
 
     private void Start()
     {
-        EventsManager.Instance.ActionJoystickMove += Move;
-        EventsManager.Instance.ActionEnemyKilled += OnEnemyOutOfRange;
+        EventsManager.Instance.eventJoyStrickMove += Move;
     }
 
     private void OnDestroy()
     {
-        EventsManager.Instance.ActionJoystickMove -= Move;
-        EventsManager.Instance.ActionEnemyKilled -= OnEnemyOutOfRange;
+        EventsManager.Instance.eventJoyStrickMove -= Move;
     }
 
-
-    private void Update()
+    private void Move(Vector3 moveVector)
     {
-        if (targets.Count <= 0) return;
-        //enemyLocked = true;
-        EventsManager.Instance.OnEnemyOnRange(targets[0]);
-    }
-
-    private void Move(Vector3 move)
-    {
-        Vector3 moveVector = move * (moveSpeed * Time.deltaTime) / Screen.width;
-        moveVector.z = moveVector.y;
-        moveVector.y = 0;
-        characterController.Move(moveVector);
-        playerAnimator.ManageAnimations(moveVector);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        /*if (other.tag.Equals(enemyTag) && !enemyLocked)
-        {
-            enemyLocked = true;
-            enemyTransform = other.transform;
-        }*/
-
-
-        if (other.tag.Equals(enemyTag))
-        {
-            if (!targets.Contains(other.transform))
-            {
-                targets.Add(other.transform);
-            }
-        }
-    }
-
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (targets.Contains(other.transform))
-        {
-            targets.Remove(other.transform);
-        }
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        Collider colliderHit = hit.collider;
-        if (colliderHit.tag.Equals(doorTag))
-        {
-            transform.position = nextStartPosition.position;
-            EventsManager.Instance.OnDoorCrossed();
-        }
-    }
-
-    private void OnEnemyOutOfRange(GameObject enemyContainer = null)
-    {
-        enemyLocked = false;
-        GameObject targetToDestroy = enemyContainer.transform.GetChild(0).gameObject;
-        targets.Remove(targetToDestroy.transform);
-        enemyContainer.GetComponent<EnemyController>().CanBeDestroyed = true;
-        EventsManager.Instance.OnEnemyOutOfRange();
+        Vector3 movementVector = moveVector * (moveSpeed * Time.deltaTime) / Screen.width;
+        movementVector.z = movementVector.y;
+        movementVector.y = 0;
+        characterController.Move(movementVector);
+        animator.ManageAnimations(movementVector);
     }
 }

@@ -5,42 +5,26 @@ using UnityEngine;
 
 public class EventsManager : MonoBehaviour
 {
-    private static EventsManager instance;
-    
-    public static EventsManager Instance
-    {
-        get
-        {
-            if (instance != null) return instance;
-            GameObject go = new GameObject("EventsManager");
-            instance = go.AddComponent<EventsManager>();
-            DontDestroyOnLoad(go);
-            return instance;
-        }
-    }
-    
+    public static EventsManager Instance { get; private set; }
+
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
+        else
+        {
+            Instance = this;
+        }
     }
 
 
-    public Action<Vector3> ActionJoystickMove;
-    public Action<Transform> ActionEnemyOnRange;
-    public Action ActionEnemyOutOfRange;
-    public Action <GameObject> ActionEnemyKilled;
-    public Action ActionDoorCrossed;
-    public void OnJoystickMove(Vector3 move) => ActionJoystickMove?.Invoke(move);
-    public void OnEnemyOnRange(Transform enemyRange) => ActionEnemyOnRange?.Invoke(enemyRange);
-    public void OnEnemyOutOfRange() => ActionEnemyOutOfRange?.Invoke();
-    public void OnEnemyKilled(GameObject enemy) => ActionEnemyKilled.Invoke(enemy);
-    public void OnDoorCrossed() => ActionDoorCrossed?.Invoke();
+    public Action<Vector3> eventJoyStrickMove;
+    public Action eventPlayerShoot;
+    public Action <int> eventSwitchedWepon;
+    public void OnJoystickMove(Vector3 moveVector) => eventJoyStrickMove?.Invoke(moveVector);
+    public void OnPlayerShoot() => eventPlayerShoot?.Invoke();
+    public void OnSwitchedWeapon(int weaponIDonAnimationLayer) => eventSwitchedWepon?.Invoke(weaponIDonAnimationLayer);
+
 }

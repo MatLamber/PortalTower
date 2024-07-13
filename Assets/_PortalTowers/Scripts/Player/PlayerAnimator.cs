@@ -1,119 +1,128 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    [Header("Elements")] [SerializeField] private Animator playerAnimator;
-    [SerializeField] private Transform rendererTransform;
+    [Header("Elements")] 
+    private GameObject prefab;
+    private Transform prefabTransform;
+    private Animator animator;
+    [SerializeField] private Transform target;
 
-    [Header("Settings")] private string walkParameter = "Walk";
-    private string runParameter = "Run";
-    private string idleParameter = "Idle";
-    private string idleSpeedParameter = "IdleSpeed";
-    private float idleValue = 0f;
-    private float walkValue = 0.005f;
+    [Header("Settings")] 
+    [SerializeField] private int handGunLayer;
+    [SerializeField] private int rifleLayer;
+    [SerializeField] private int rocketLauncherLayer;
+    private string xVelocityParamter = "xVelocity";
+    private string zVelocityParamter = "zVelocity";
+    private string moveSpeedParamter = "moveSpeed";
+    private string isRunningParamter = "isRunning";
+    private string shootParamter = "Shoot";
+    private bool onTarget;
+    Vector3 targetLookAt;
+    private float runnigThreshold = 1f;
 
-    private Vector3 forwardLookAt;
-    
-    private bool enemyOnRange;
-    private bool combatTween;
 
+    private void Awake()
+    {
+        prefab = transform.GetChild(0).gameObject;
+        animator = prefab.GetComponent<Animator>();
+        prefabTransform = prefab.transform;
+    }
 
     private void Start()
     {
-        EventsManager.Instance.ActionEnemyOnRange += OnEnemyOnRange;
-        EventsManager.Instance.ActionEnemyOutOfRange += OnEnemyOutRange;
+        EventsManager.Instance.eventPlayerShoot += ShootAnimation;
+        EventsManager.Instance.eventSwitchedWepon += SwitchAnimationLayer;
     }
 
     private void OnDestroy()
     {
-        EventsManager.Instance.ActionEnemyOnRange -= OnEnemyOnRange;
-        EventsManager.Instance.ActionEnemyOutOfRange -= OnEnemyOutRange;
+        EventsManager.Instance.eventPlayerShoot -= ShootAnimation;
+        EventsManager.Instance.eventSwitchedWepon += SwitchAnimationLayer;
     }
 
-    public void ManageAnimations(Vector3 move)
+    public void ManageAnimations(Vector3 movementVector)
     {
-        if(!enemyOnRange)
-            forwardLookAt = move.normalized;
-        if (move.magnitude > idleValue && move.magnitude < walkValue)
+
+        float moveSpeed = movementVector.magnitude * 100;
+        if (onTarget)
         {
-            PlayWalkAnimation();
-            if(!enemyOnRange)
-                SetForwardPosition(forwardLookAt);
+            ResetVerticalAxis();
         }
-        else if (move.magnitude > idleValue && move.magnitude > walkValue)
+        else
         {
-            PlayRunAnimation();
-            if(!enemyOnRange)
-                SetForwardPosition(forwardLookAt);
+            if(movementVector.magnitude > 0)
+                targetLookAt = movementVector.normalized;
         }
-        else if (move.magnitude <= idleValue)
+        prefabTransform.forward = targetLookAt;
+        if (onTarget)
         {
-            PlayIdleAnimation();
+            AimWhileMoving(movementVector, moveSpeed);
+        }
+        else
+        {
+            animator.SetFloat(moveSpeedParamter,moveSpeed);
+        }
+
+
+    }
+
+    private void ResetVerticalAxis()
+    {
+        targetLookAt  = (target.position - transform.position).normalized;
+        targetLookAt.z = targetLookAt.z;
+        targetLookAt.y = 0;
+    }
+
+    private void AimWhileMoving(Vector3 movementVector, float moveSpeed)
+    {
+        if (moveSpeed > 0)
+        {
+            animator.SetFloat(isRunningParamter,moveSpeed,.2f,Time.deltaTime);
+        }
+        else
+        {
+            animator.SetFloat(isRunningParamter,moveSpeed);
+        }
+            
+        float xVelocity = Vector3.Dot(movementVector.normalized,prefabTransform.right);
+        float zVelocity = Vector3.Dot(movementVector.normalized,prefabTransform.forward);
+        animator.SetFloat(xVelocityParamter,xVelocity);
+        animator.SetFloat(zVelocityParamter,zVelocity);
+    }
+
+
+    private void ShootAnimation()
+    {
+        animator.SetTrigger(shootParamter);
+    }
+
+
+    private void SwitchAnimationLayer(int weaponIdOnAnimationLayer)
+    {
+        TurnOffAllAnimationLayers();
+        if (weaponIdOnAnimationLayer != 0)
+        {
+            onTarget = true;
+            animator.SetLayerWeight(weaponIdOnAnimationLayer,1);
+            animator.SetLayerWeight(weaponIdOnAnimationLayer+1,1);
+        }
+        else
+        {
+            onTarget = false;
+        }
+
+    }
+
+    private void TurnOffAllAnimationLayers()
+    {
+        for (int i = 1; i < animator.layerCount; i++)
+        {
+            animator.SetLayerWeight(i,0);
         }
     }
-
-    private void PlayWalkAnimation()
-    {
-        playerAnimator.SetBool(idleParameter, false);
-        playerAnimator.SetBool(runParameter, false);
-        playerAnimator.SetBool(walkParameter, true);
-    }
-
-    private void PlayRunAnimation()
-    {
-        playerAnimator.SetBool(idleParameter, false);
-        playerAnimator.SetBool(walkParameter, false);
-        playerAnimator.SetBool(runParameter, true);
-    }
-
-    private void PlayIdleAnimation()
-    {
-        playerAnimator.SetBool(walkParameter, false);
-        playerAnimator.SetBool(runParameter, false);
-        playerAnimator.SetBool(idleParameter, true);
-    }
-
-    private void SetUpperLayerBody()
-    {
-        if (combatTween) return;
-        combatTween = true;
-        DOVirtual.Float(0, 1, 0.3f, value => playerAnimator.SetLayerWeight(1, value));
-        playerAnimator.SetFloat(idleSpeedParameter,0.00001f);
-
-    }
-
-    private void SetDefaultLayerBody()
-    {
-        if (!combatTween) return;
-        combatTween = false;
-        DOVirtual.Float(1, 0, 0.3f, value => playerAnimator.SetLayerWeight(1, value));
-        playerAnimator.SetFloat(idleSpeedParameter,1);
-    }
-
-    private void SetForwardPosition(Vector3 forwardVector)
-    {
-        rendererTransform.forward = forwardVector;
-    }
-
-    private void OnEnemyOnRange(Transform enemyTransform)
-    {
-        Debug.Log($"SET NEW FOWARD POSITION");
-        SetUpperLayerBody();
-        enemyOnRange = true;
-        Vector3 direction = (enemyTransform.position - rendererTransform.position);
-        direction.y = 0 ;
-        forwardLookAt = direction.normalized;
-        SetForwardPosition(forwardLookAt);
-    }
-
-    private void OnEnemyOutRange()
-    {
-        SetDefaultLayerBody();
-        enemyOnRange = false;
-    }
-    
 }
