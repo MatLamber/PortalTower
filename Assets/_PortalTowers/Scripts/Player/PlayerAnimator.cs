@@ -10,7 +10,7 @@ public class PlayerAnimator : MonoBehaviour
     private GameObject prefab;
     private Transform prefabTransform;
     private Animator animator;
-   [SerializeField] private Transform target;
+    [SerializeField] private Transform target;
     private Transform targetFolow;
 
     [Header("Settings")] 
@@ -26,8 +26,9 @@ public class PlayerAnimator : MonoBehaviour
     Vector3 targetLookAt;
     private float runnigThreshold = 1f;
     private bool isArmed;
+    private int currentWeaponLayer;
 
-
+    public bool isOnTarget => onTarget;
     private void Awake()
     {
         prefab = transform.GetChild(0).gameObject;
@@ -38,18 +39,30 @@ public class PlayerAnimator : MonoBehaviour
     private void Start()
     {
         EventsManager.Instance.eventSwitchedWepon += SwitchAnimationLayer;
+        EventsManager.Instance.eventEnemyDeath += FreeTargetLocking;
+        EventsManager.Instance.eventPlayerShoot += ShootAnimation;
+        FreeTargetLocking();
     }
 
 
     private void OnDestroy()
     {
         EventsManager.Instance.eventSwitchedWepon -= SwitchAnimationLayer;
+        EventsManager.Instance.eventEnemyDeath -= FreeTargetLocking;
+        EventsManager.Instance.eventPlayerShoot -= ShootAnimation;
     }
 
     private void Update()
     {
         if (onTarget)
-            target.transform.position = targetFolow.transform.position;
+        {
+            if (targetFolow is not null)
+            {
+                target.transform.position = targetFolow.transform.position;
+            }
+            
+        }
+
     }   
 
 
@@ -118,14 +131,18 @@ public class PlayerAnimator : MonoBehaviour
     }
 
 
-    private void SwitchAnimationLayer(int weaponIdOnAnimationLayer)
+    private void SwitchAnimationLayer(int weaponIdOnAnimationLayer, Transform weaponTransfrom = null)
     {
         TurnOffAllAnimationLayers();
         if (weaponIdOnAnimationLayer != 0)
         {
             isArmed = true;
-            animator.SetLayerWeight(weaponIdOnAnimationLayer,1);
-            animator.SetLayerWeight(weaponIdOnAnimationLayer+1,1);
+            currentWeaponLayer = weaponIdOnAnimationLayer;
+            if (onTarget)
+            {
+                SetLayerWeight(weaponIdOnAnimationLayer);
+            }
+
             switch (weaponIdOnAnimationLayer)
             {
                 case 1:
@@ -152,6 +169,12 @@ public class PlayerAnimator : MonoBehaviour
 
     }
 
+    private void SetLayerWeight(int weaponIdOnAnimationLayer)
+    {
+        animator.SetLayerWeight(weaponIdOnAnimationLayer,1);
+        animator.SetLayerWeight(weaponIdOnAnimationLayer+1,1);
+    }
+
     private void TurnOffAllAnimationLayers()
     {
         isArmed = false;
@@ -169,15 +192,33 @@ public class PlayerAnimator : MonoBehaviour
             {
                 onTarget = true;
                 targetFolow = newTarget;
+                SetLayerWeight(currentWeaponLayer);
+            }
+        }
+        else
+        {
+            if (Vector3.Distance(transform.position, newTarget.position) <
+                Vector3.Distance(transform.position, target.position))
+            {
+                onTarget = true;
+                targetFolow = newTarget;
             }
         }
         EventsManager.Instance.OnEnemyLockedIn(onTarget);
     }
 
-    private void FreeTargetLocking()
+    private void FreeTargetLocking(Transform enemyTransfrom = null)
     {
-        onTarget = false;
-        target = null;
+        if (enemyTransfrom is not null)
+        {
+            if (targetFolow.Equals(enemyTransfrom))
+            {
+                animator.SetFloat(moveSpeedParamter,0);
+                onTarget = false;
+                target = null;
+                TurnOffAllAnimationLayers();
+            }
+        }
         EventsManager.Instance.OnEnemyLockedIn(onTarget);
     }
 }

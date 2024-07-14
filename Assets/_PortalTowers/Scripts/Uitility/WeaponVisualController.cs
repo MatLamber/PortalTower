@@ -27,6 +27,7 @@ public class WeaponVisualController : MonoBehaviour
     private string rocketLauncherlName = "RocketLauncher";
     private string shotgunName = "Shorty";
 
+    private bool onTarget;
 
     private void Awake()
     {
@@ -38,13 +39,19 @@ public class WeaponVisualController : MonoBehaviour
 
     private void Start()
     {
-        SwitchOnGuns();
         EventsManager.Instance.eventEnemyLockedIn += UpdateTargetLockedInState;
+        StartCoroutine(FirstWeaponDelay());
     }
 
     private void OnDestroy()
     {
         EventsManager.Instance.eventEnemyLockedIn -= UpdateTargetLockedInState;
+    }
+
+    IEnumerator FirstWeaponDelay()
+    {
+        yield return new WaitForSeconds(0f);
+        SwitchOnGuns(pistol);
     }
 
     private void Update()
@@ -82,32 +89,37 @@ public class WeaponVisualController : MonoBehaviour
         }
         else
         {
-            leftHandIK.weight = 1;
-            headAim.weight = 1;
-            gunAim.weight = 1;
+            Debug.Log($"OnTarget {onTarget}");
+            if (onTarget)
+            {
+                leftHandIK.weight = 1;
+                headAim.weight = 1;
+                gunAim.weight = 1;
+            }
+
             if (gunTransform.name.Equals(pistolName))
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[0];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[0]);
-                EventsManager.Instance.OnSwitchedWeapon(1);
+                EventsManager.Instance.OnSwitchedWeapon(1,gunTransform);
             }
             else if (gunTransform.name.Equals(rifleName))
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[1];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[1]);
-                EventsManager.Instance.OnSwitchedWeapon(3);
+                EventsManager.Instance.OnSwitchedWeapon(3,gunTransform);
             }
             else if (gunTransform.name.Equals(rocketLauncherlName))
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[2];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[2]);
-                EventsManager.Instance.OnSwitchedWeapon(5);
+                EventsManager.Instance.OnSwitchedWeapon(5,gunTransform);
             }
             else
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[3];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[3]);
-                EventsManager.Instance.OnSwitchedWeapon(1);
+                EventsManager.Instance.OnSwitchedWeapon(1,gunTransform);
             }
         }
         
@@ -125,7 +137,8 @@ public class WeaponVisualController : MonoBehaviour
 
     private void UpdateTargetLockedInState(bool state)
     {
-
+        
+        onTarget = state;
         if (state)
         {
             headAim.weight = 1;
