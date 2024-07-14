@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   fireRate: 1
+  lastShootTime: 148.80775
+  bulletsPerShot: 5
+  spreadAmout: 20

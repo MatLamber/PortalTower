@@ -46,10 +46,14 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Shoot()
     {
-        GameObject newBullet = ObjectPool.Instance.GetBullet();
-        newBullet.transform.position = gunPoint.position;
-        newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
-        newBullet.GetComponent<Rigidbody>().velocity = gunPoint.forward * bulletSpeed;
+        for (int i = 0; i < currentWeaponData.bulletsPerShot; i++)
+        {
+            GameObject newBullet = ObjectPool.Instance.GetObjet(bulletPrefab);
+            newBullet.transform.position = gunPoint.position;
+            newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
+            Vector3 bulletDirection = currentWeaponData.ApplySpread(gunPoint.forward);
+            newBullet.GetComponent<Rigidbody>().velocity = bulletDirection * bulletSpeed;
+        }
         EventsManager.Instance.OnPlayerShoot();
     }
 

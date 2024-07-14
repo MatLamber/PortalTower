@@ -11,16 +11,19 @@ public class BulletController : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         CreateImpactFX(other);
-        ObjectPool.Instance.ReturnBullet(gameObject);
+        ObjectPool.Instance.ReturnObject(gameObject,0);
     }
 
     private void CreateImpactFX(Collision other)
     {
-        if (other.contacts.Length >0)
+        if (other.contacts.Length > 0)
         {
             ContactPoint contactPoint = other.contacts[0];
-            GameObject newImpactFx = Instantiate(bulletImpactFX, contactPoint.point,
-                Quaternion.LookRotation(contactPoint.normal));
+            GameObject newImpactFx = ObjectPool.Instance.GetObjet(bulletImpactFX);
+            newImpactFx.transform.position = contactPoint.point;
+            newImpactFx.transform.rotation = Quaternion.LookRotation(contactPoint.normal);
+            ObjectPool.Instance.ReturnObject(newImpactFx,0.3f);
+            
         }
     }
 }

@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   fireRate: 5
-  lastShootTime: 48.576775
+  lastShootTime: 115.68529
+  bulletsPerShot: 1
+  spreadAmout: 0.1

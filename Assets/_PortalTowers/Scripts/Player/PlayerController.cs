@@ -20,6 +20,12 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<PlayerAnimator>();
+        characterController.slopeLimit = 0;
+    }
+
+    private void Update()
+    {
+           // transform.localPosition = new Vector3(transform.localPosition.x, 0.5f, transform.localPosition.z);
     }
 
     private void Start()
