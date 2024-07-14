@@ -89,7 +89,6 @@ public class WeaponVisualController : MonoBehaviour
         }
         else
         {
-            Debug.Log($"OnTarget {onTarget}");
             if (onTarget)
             {
                 leftHandIK.weight = 1;

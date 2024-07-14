@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         animator.ManageAnimations(movementVector);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.tag.Equals(enemyTagName))
             animator.LockToTarget(other.transform);

@@ -8,10 +8,14 @@ public class BulletController : MonoBehaviour
 
     [SerializeField] private GameObject bulletImpactFX;
     private Rigidbody rigidbody => GetComponent<Rigidbody>();
+    private string enemyTag = "Enemy";
     private void OnCollisionEnter(Collision other)
     {
         CreateImpactFX(other);
         ObjectPool.Instance.ReturnObject(gameObject,0);
+        if (other.collider.tag.Equals(enemyTag))
+            EventsManager.Instance.OnEnemyHit(other.transform);
+        
     }
 
     private void CreateImpactFX(Collision other)

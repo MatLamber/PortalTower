@@ -27,6 +27,7 @@ public class PlayerAnimator : MonoBehaviour
     private float runnigThreshold = 1f;
     private bool isArmed;
     private int currentWeaponLayer;
+    private Vector3 targetDefaultPosition;
 
     public bool isOnTarget => onTarget;
     private void Awake()
@@ -215,7 +216,7 @@ public class PlayerAnimator : MonoBehaviour
             {
                 animator.SetFloat(moveSpeedParamter,0);
                 onTarget = false;
-                target = null;
+                targetFolow = null;
                 TurnOffAllAnimationLayers();
             }
         }

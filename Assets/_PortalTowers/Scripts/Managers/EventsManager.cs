@@ -24,11 +24,13 @@ public class EventsManager : MonoBehaviour
     public Action eventPlayerShoot;
     public Action <int,Transform> eventSwitchedWepon;
     public Action<bool> eventEnemyLockedIn;
+    public Action<Transform> eventEnemyHit;
     public Action <Transform> eventEnemyDeath;
     public void OnJoystickMove(Vector3 moveVector) => eventJoyStrickMove?.Invoke(moveVector);
     public void OnPlayerShoot() => eventPlayerShoot?.Invoke();
     public void OnSwitchedWeapon(int weaponIDonAnimationLayer, Transform weaponTransform = null) => eventSwitchedWepon?.Invoke(weaponIDonAnimationLayer, weaponTransform);
     public void OnEnemyLockedIn(bool state) => eventEnemyLockedIn?.Invoke(state);
+    public void OnEnemyHit(Transform enemyTransfrom) => eventEnemyHit?.Invoke(enemyTransfrom);
     public void OnEnemyDeath(Transform enemyTransfrom) => eventEnemyDeath?.Invoke(enemyTransfrom);
 
 }
