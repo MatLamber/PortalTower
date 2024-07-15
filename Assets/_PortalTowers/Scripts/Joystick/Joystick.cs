@@ -14,6 +14,28 @@ public class Joystick : MonoBehaviour
     private Vector3 move;
     private bool canControl;
     private Vector3 clickedPostion;
+    private bool teleporting;
+
+    public bool Teleporting
+    {
+        get => teleporting;
+        set => teleporting = value;
+    }
+
+    public static Joystick Instance { get; private set; }
+    
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -37,6 +59,7 @@ public class Joystick : MonoBehaviour
 
     private void ShowJoystick()
     {
+        if(teleporting) return;
         move = Vector3.zero;
         joystickOutline.gameObject.SetActive(true);
         canControl = true;

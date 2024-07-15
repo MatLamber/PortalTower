@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6981f0420a2b648a6958f621c966e121, type: 3}
-  m_Name: 2Fats2Muscular
+  m_Name: 2Normal
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 15cbc3e3441174d5798f5a9997dacfd9, type: 2}
+  - {fileID: 11400000, guid: 15cbc3e3441174d5798f5a9997dacfd9, type: 2}

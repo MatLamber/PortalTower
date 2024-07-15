@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67cd48472750b4fe8abc854301003232, type: 3}
   m_Name: ZombieNormal
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2948429458558076538, guid: abd16b6f8eefe4ec38c2d4fa55706490, type: 3}
+  prefab: {fileID: 3344847211514953026, guid: dc0ca8b6f5595a24188d850a5828579f, type: 3}
   name: Normal
   speed: 0
   hitPoints: 3
+  aggressionRange: 2.6

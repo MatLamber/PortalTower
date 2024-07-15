@@ -103,13 +103,13 @@ public class PlayerAnimator : MonoBehaviour
 
     private void ResetVerticalAxis()
     {
-        targetLookAt  = (target.position - transform.position).normalized;
+        targetLookAt  = (target.transform.position - transform.position).normalized;
         targetLookAt.z = targetLookAt.z;
         targetLookAt.y = 0;
     }
 
     private void AimWhileMoving(Vector3 movementVector, float moveSpeed)
-    {
+    {        
         if (moveSpeed > 0)
         {
             animator.SetFloat(isRunningParamter,moveSpeed,.2f,Time.deltaTime);
@@ -118,7 +118,7 @@ public class PlayerAnimator : MonoBehaviour
         {
             animator.SetFloat(isRunningParamter,moveSpeed);
         }
-            
+
         float xVelocity = Vector3.Dot(movementVector.normalized,prefabTransform.right);
         float zVelocity = Vector3.Dot(movementVector.normalized,prefabTransform.forward);
         animator.SetFloat(xVelocityParamter,xVelocity);
@@ -178,7 +178,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void TurnOffAllAnimationLayers()
     {
-        isArmed = false;
+        
         for (int i = 1; i < animator.layerCount; i++)
         {
             animator.SetLayerWeight(i,0);
@@ -187,6 +187,7 @@ public class PlayerAnimator : MonoBehaviour
 
     public void LockToTarget(Transform newTarget)
     {
+
         if (!onTarget)
         {
             if (newTarget != null)
