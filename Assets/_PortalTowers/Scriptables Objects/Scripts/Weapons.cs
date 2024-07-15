@@ -8,6 +8,8 @@ public class Weapons : ScriptableObject
     public float lastShootTime;
     public float bulletsPerShot = 1;
     public float spreadAmout = 1;
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 20;
 
 
     public Vector3 ApplySpread(Vector3 orginalDirection)

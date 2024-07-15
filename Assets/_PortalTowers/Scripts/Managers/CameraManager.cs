@@ -24,6 +24,12 @@ public class CameraManager : MonoBehaviour
 
     private void EnableGeneralCamera()
     {
+        StartCoroutine(GeneralCameraDelay());
+    }
+
+    IEnumerator GeneralCameraDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
         playerCamera.Priority = 0;
         generalCamera.Priority = 1;
     }

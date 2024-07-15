@@ -159,8 +159,9 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.enabled = true;
         yield return new WaitUntil(() => navMeshAgent.isOnNavMesh);
         navMeshAgent.SetDestination(Vector3.zero);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         navMeshAgent.isStopped = true;
+        navMeshAgent.speed *= data.speed;
     }
 
 

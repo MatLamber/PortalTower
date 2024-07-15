@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67cd48472750b4fe8abc854301003232, type: 3}
   m_Name: ZombieGirl
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1232759039369776726, guid: 5fc537a7ff74441a2a9d7418767cd48d, type: 3}
-  name: 
-  speed: 0
-  hitPoints: 1
+  prefab: {fileID: 3344847211514953026, guid: 08a2ded898f616e44859fe00d9d81fb3, type: 3}
+  name: Girl
+  speed: 3.5
+  hitPoints: 100
+  aggressionRange: 2.6

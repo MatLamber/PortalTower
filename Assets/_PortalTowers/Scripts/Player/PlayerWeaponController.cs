@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
 {
+    
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float bulletSpeed;
     [SerializeField] private List<Weapons> weaponsData;
     [SerializeField] private List<Transform> gunPoints;
     private Weapons currentWeaponData;
     private PlayerAnimator animator;
     private Transform gunPoint;
+    private float bulletSpeed;
     
     private string pistolName = "Pistol";
     private string rifleName = "Rifle";
@@ -48,11 +49,11 @@ public class PlayerWeaponController : MonoBehaviour
     {
         for (int i = 0; i < currentWeaponData.bulletsPerShot; i++)
         {
-            GameObject newBullet = ObjectPool.Instance.GetObjet(bulletPrefab);
+            GameObject newBullet = ObjectPool.Instance.GetObjet(currentWeaponData.bulletPrefab);
             newBullet.transform.position = gunPoint.position;
             newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
             Vector3 bulletDirection = currentWeaponData.ApplySpread(gunPoint.forward);
-            newBullet.GetComponent<Rigidbody>().velocity = bulletDirection * bulletSpeed;
+            newBullet.GetComponent<Rigidbody>().velocity = bulletDirection * currentWeaponData.bulletSpeed;
         }
         EventsManager.Instance.OnPlayerShoot();
     }

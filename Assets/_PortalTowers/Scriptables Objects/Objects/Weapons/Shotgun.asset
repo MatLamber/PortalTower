@@ -16,3 +16,4 @@ MonoBehaviour:
   lastShootTime: 148.80775
   bulletsPerShot: 5
   spreadAmout: 20
+  bulletPrefab: {fileID: 3466685549952159586, guid: 26c993b7c81224044a0e1652f037aa77, type: 3}

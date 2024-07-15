@@ -9,6 +9,7 @@ public class PortalControllers : MonoBehaviour
     private GameObject portalVfx => transform.GetChild(0).gameObject;
     private string playerTagName = "Player";
     private bool doorCrossed;
+    private bool canBeCrossed;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class PortalControllers : MonoBehaviour
 
     private void HideDoor()
     {
+        canBeCrossed = false;
         doorCrossed = false;
         portalVfx.GetComponent<ParticleSystem>().Stop();
         transform.DOScale(Vector3.zero,0.3f);
@@ -37,13 +39,15 @@ public class PortalControllers : MonoBehaviour
         transform.DOScale(new Vector3(1,1,1),0.3f).SetEase(Ease.OutBack).SetDelay(0.3f).OnComplete(() =>
         {
             portalVfx.GetComponent<ParticleSystem>().Play();
+            canBeCrossed = true;
         });
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals(playerTagName) && !doorCrossed)
+        if(!canBeCrossed) return;
+        if (other.tag.Equals(playerTagName) && !doorCrossed )
         {
             doorCrossed = true;
             EventsManager.Instance.OnTeleportPlayer();

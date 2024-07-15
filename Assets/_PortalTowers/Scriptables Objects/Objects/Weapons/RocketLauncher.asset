@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: RocketLauncher
   m_EditorClassIdentifier: 
   fireRate: 0.5
-  lastShootTime: 23.722202
+  lastShootTime: 26.037674
+  bulletsPerShot: 1
+  spreadAmout: 1
+  bulletPrefab: {fileID: 2921188386908487670, guid: 8c5e0a8bc88d216469905e5d3512f5b0, type: 3}
+  bulletSpeed: 10

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67cd48472750b4fe8abc854301003232, type: 3}
   m_Name: ZombieSkinny
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7411297407240119989, guid: a6340e0fdd8da447bbaee5c766a9a9bd, type: 3}
+  prefab: {fileID: 3344847211514953026, guid: 83b75d922fba5084cb0b53f3604ded27, type: 3}
   name: Skinny
-  speed: 0
-  hitPoints: 3
+  speed: 2.5
+  hitPoints: 100
+  aggressionRange: 2.6

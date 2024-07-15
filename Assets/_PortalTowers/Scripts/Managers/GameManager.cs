@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,8 +39,8 @@ public class GameManager : MonoBehaviour
     private void SetPlayerAndEnemiesIntheCurrentFloor()
     {
         player.transform.parent = floors[currentScenario].transform;
-        foreach (GameObject enemy in enemiesOnLevel)
-            enemy.transform.parent = floors[currentScenario].transform;
+       /* foreach (GameObject enemy in enemiesOnLevel)
+            enemy.transform.parent = floors[currentScenario].transform;*/
     }
 
     private void RemoveEnemyFromLevel(Transform enemy)
@@ -73,13 +74,13 @@ public class GameManager : MonoBehaviour
 
     private void TeleportPlayer()
     {
+        Debug.Log("TELEPORT");
         Joystick.Instance.Teleporting = true;
         Joystick.Instance.HideJoystick();
         Debug.Log($"{playerStartPoints[currentScenario]}");
         player.transform.position = playerStartPoints[1].position;
         Joystick.Instance.Teleporting = false;
-        SetPlayerAndEnemiesIntheCurrentFloor();
-        Invoke(nameof(ChangeFloorPositions),0.7f);
+        Invoke(nameof(ChangeFloorPositions),0.3f);
         
     }
 
@@ -111,16 +112,21 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
+       
+        if (currentLevel >= enemiesSetupList.Count)
+            currentLevel = Random.Range(0,enemiesSetupList.Count-1);
+        
+        int index = currentScenario;
+        if (index == 0 && firstSpawn)
+        {
+            index = 1;
+        }
+
         foreach (Enemy enemy in enemiesSetupList[currentLevel].enemies)
         {
-            int index = currentScenario;
-            if (index == 0 && firstSpawn)
-            {
-                index = 1;
-            }
- 
+
            GameObject newEnemy = Instantiate(enemy.prefab, enemyStartPoints[index].transform.position,
-               quaternion.LookRotation(-player.transform.forward, player.transform.up));
+               quaternion.LookRotation(-player.transform.forward, player.transform.up),floors[currentScenario].transform);
            newEnemy.GetComponent<EnemyController>().Target = player.transform;
             /* GameObject newEnemy = ObjectPool.Instance.GetObjet(enemy.prefab);
             newEnemy.transform.position = enemyStartPoints[index].transform.position;
@@ -129,7 +135,7 @@ public class GameManager : MonoBehaviour
             enemiesOnLevel.Add(newEnemy);
             if (!firstSpawn)
                 firstSpawn = true;
-
         }
+        SetPlayerAndEnemiesIntheCurrentFloor();
     }
 }
