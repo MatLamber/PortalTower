@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class PortalControllers : MonoBehaviour
 {
-    private GameObject portalVfx => transform.GetChild(0).gameObject;
     private string playerTagName = "Player";
     private bool doorCrossed;
     private bool canBeCrossed;
@@ -29,7 +28,6 @@ public class PortalControllers : MonoBehaviour
     {
         canBeCrossed = false;
         doorCrossed = false;
-        portalVfx.GetComponent<ParticleSystem>().Stop();
         transform.DOScale(Vector3.zero,0.3f);
 
     }
@@ -38,7 +36,6 @@ public class PortalControllers : MonoBehaviour
     {
         transform.DOScale(new Vector3(1,1,1),0.3f).SetEase(Ease.OutBack).SetDelay(0.3f).OnComplete(() =>
         {
-            portalVfx.GetComponent<ParticleSystem>().Play();
             canBeCrossed = true;
         });
 

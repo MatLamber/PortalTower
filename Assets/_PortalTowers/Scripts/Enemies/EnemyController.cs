@@ -75,6 +75,9 @@ public class EnemyController : MonoBehaviour
         for (int i = 0; i < enemyRigidbodies.Length; i++)
         {
                 enemyRigidbodies[i].isKinematic = false;
+                
+                enemyRigidbodies[i].AddForce( -enemyPrefab.transform.forward * 700);
+                enemyRigidbodies[i].AddForce(enemyPrefab.transform.up * 700);
         }
 
         StartCoroutine(GoTroughFloor());

@@ -15,5 +15,5 @@ MonoBehaviour:
   prefab: {fileID: 3344847211514953026, guid: 08a2ded898f616e44859fe00d9d81fb3, type: 3}
   name: Girl
   speed: 3.5
-  hitPoints: 100
+  hitPoints: 1
   aggressionRange: 2.6
