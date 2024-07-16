@@ -6,6 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class WeaponVisualController : MonoBehaviour
 {
+    [SerializeField] private Transform starterPistol;
     [SerializeField] private Transform pistol;
     [SerializeField] private Transform rifle;
     [SerializeField] private Transform bazooka;
@@ -22,6 +23,7 @@ public class WeaponVisualController : MonoBehaviour
     [SerializeField] private List<Vector3> leftHandIkRotaions;
 
 
+    private string starterPitolName = "StarterPistol";
     private string pistolName = "Pistol";
     private string rifleName = "Rifle";
     private string rocketLauncherlName = "RocketLauncher";
@@ -31,6 +33,7 @@ public class WeaponVisualController : MonoBehaviour
 
     private void Awake()
     {
+        starterPistol.name = starterPitolName;
         pistol.name = pistolName;
         rifle.name = rifleName;
         bazooka.name = rocketLauncherlName;
@@ -51,18 +54,21 @@ public class WeaponVisualController : MonoBehaviour
     IEnumerator FirstWeaponDelay()
     {
         yield return new WaitForSeconds(0f);
-        SwitchOnGuns(pistol);
+        SwitchOnGuns(starterPistol);
     }
 
     private void Update()
     {
+        
         if(Input.GetKeyDown(KeyCode.Alpha1))
-            SwitchOnGuns(pistol);
+            SwitchOnGuns(starterPistol);
         if(Input.GetKeyDown(KeyCode.Alpha2))
-            SwitchOnGuns(rifle);
+            SwitchOnGuns(pistol);
         if(Input.GetKeyDown(KeyCode.Alpha3))
-            SwitchOnGuns(bazooka);
+            SwitchOnGuns(rifle);
         if(Input.GetKeyDown(KeyCode.Alpha4))
+            SwitchOnGuns(bazooka);
+        if(Input.GetKeyDown(KeyCode.Alpha5))
             SwitchOnGuns(shotgun);
         if(Input.GetKeyDown(KeyCode.Alpha0))
             SwitchOnGuns();
@@ -114,6 +120,12 @@ public class WeaponVisualController : MonoBehaviour
                 leftHandTarget.transform.localPosition = leftHandIkPositions[2];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[2]);
                 EventsManager.Instance.OnSwitchedWeapon(5,gunTransform);
+            }
+            else if (gunTransform.name.Equals(starterPitolName))
+            {
+                leftHandTarget.transform.localPosition = leftHandIkPositions[0];
+                leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[0]);
+                EventsManager.Instance.OnSwitchedWeapon(1,gunTransform);
             }
             else
             {

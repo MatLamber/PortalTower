@@ -32,7 +32,7 @@ public class EventsManager : MonoBehaviour
     public void OnPlayerShoot() => eventPlayerShoot?.Invoke();
     public void OnSwitchedWeapon(int weaponIDonAnimationLayer, Transform weaponTransform = null) => eventSwitchedWepon?.Invoke(weaponIDonAnimationLayer, weaponTransform);
     public void OnEnemyLockedIn(bool state) => eventEnemyLockedIn?.Invoke(state);
-    public void OnEnemyHit(Transform enemyTransfrom, float stoppingPower) => eventEnemyHit?.Invoke(enemyTransfrom, stoppingPower);
+    public void OnEnemyHit(Transform enemyTransfrom, float power) => eventEnemyHit?.Invoke(enemyTransfrom, power);
     public void OnEnemyDeath(Transform enemyTransfrom) => eventEnemyDeath?.Invoke(enemyTransfrom);
     public void OnLevelFinish() => eventLevelFinish?.Invoke();
     public void OnTeleportPlayer() => eventTeleportPlayer?.Invoke();

@@ -129,7 +129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3466685549952159586, guid: 26c993b7c81224044a0e1652f037aa77, type: 3}
-  bulletSpeed: 20
   weaponsData:
   - {fileID: 11400000, guid: 653a5c0ef5bb0b647a67ec078048da5d, type: 2}
   - {fileID: 11400000, guid: 819941b8287cb5f4db29b1d01aec1dc4, type: 2}
@@ -152,12 +151,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95036c3be02ce946b9728a1a26842df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pistol: {fileID: 956722726214844694}
+  starterPistol: {fileID: 956722726214844694}
+  pistol: {fileID: 133525169144095159}
   rifle: {fileID: 956722726338830794}
   bazooka: {fileID: 956722727286018600}
   shotgun: {fileID: 956722727730661409}
   weaponsTransfrom:
   - {fileID: 956722726214844694}
+  - {fileID: 133525169144095159}
   - {fileID: 956722726338830794}
   - {fileID: 956722727286018600}
   - {fileID: 956722727730661409}
@@ -186,7 +187,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.83
+  m_Radius: 2.61
   m_Center: {x: 0, y: 0.81, z: 0}
 --- !u!54 &927179962
 Rigidbody:
@@ -938,6 +939,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1774152024791756780, guid: ad38bf6697a8b9c4aa846643c00a9ff6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ad38bf6697a8b9c4aa846643c00a9ff6, type: 3}
+--- !u!4 &133525169144095159 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1299939516829300193, guid: ad38bf6697a8b9c4aa846643c00a9ff6, type: 3}
+  m_PrefabInstance: {fileID: 1427694362983273558}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &144713550850644005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1284106712056417395, guid: ad38bf6697a8b9c4aa846643c00a9ff6, type: 3}

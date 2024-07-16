@@ -13,7 +13,7 @@ public class PlayerWeaponController : MonoBehaviour
     private PlayerAnimator animator;
     private Transform gunPoint;
     private float bulletSpeed;
-    
+    private string starterPitolName = "StarterPistol";
     private string pistolName = "Pistol";
     private string rifleName = "Rifle";
     private string rocketLauncherlName = "RocketLauncher";
@@ -38,7 +38,6 @@ public class PlayerWeaponController : MonoBehaviour
     private void Update()
     {
         if(currentWeaponData is null) return;
-
         if (currentWeaponData.CanShoot() && animator.isOnTarget)
         {
             Shoot();
@@ -52,7 +51,7 @@ public class PlayerWeaponController : MonoBehaviour
             GameObject newBullet = ObjectPool.Instance.GetObjet(currentWeaponData.bulletPrefab);
             newBullet.transform.position = gunPoint.position;
             newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
-            newBullet.GetComponent<BulletController>().StoppingPower = currentWeaponData.stoppingPower;
+            newBullet.GetComponent<BulletController>().Power = currentWeaponData.power;
             Vector3 bulletDirection = currentWeaponData.ApplySpread(gunPoint.forward);
             newBullet.GetComponent<Rigidbody>().velocity = bulletDirection * currentWeaponData.bulletSpeed;
         }
@@ -62,27 +61,33 @@ public class PlayerWeaponController : MonoBehaviour
     private void SetCurrentWeaponData(int id,Transform gunTransform)
     {
 
-        if (gunTransform.name.Equals(pistolName))
+        if (gunTransform.name.Equals(starterPitolName))
         {
             currentWeaponData = weaponsData[0];
             gunPoint = gunPoints[0];
         }
-        else if (gunTransform.name.Equals(rifleName))
+        else if (gunTransform.name.Equals(pistolName))
         {
             currentWeaponData = weaponsData[1];
             gunPoint = gunPoints[1];
         }
-        else if (gunTransform.name.Equals(rocketLauncherlName))
+        else if (gunTransform.name.Equals(rifleName))
         {
             currentWeaponData = weaponsData[2];
             gunPoint = gunPoints[2];
         }
-        else
+        else if (gunTransform.name.Equals(rocketLauncherlName))
         {
             currentWeaponData = weaponsData[3];
             gunPoint = gunPoints[3];
         }
+        else
+        {
+            currentWeaponData = weaponsData[4];
+            gunPoint = gunPoints[4];
+        }
 
         currentWeaponData.lastShootTime = 0;
     }
+    
 }

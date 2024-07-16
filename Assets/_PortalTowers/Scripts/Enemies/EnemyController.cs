@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
     private float originalSpeed;
     private int flyAwayForce = 200;
     private int extraForce = 500;
-    
+
     private bool isDead;
     public Transform Target
     {
@@ -131,17 +131,17 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position,aggresionRange);    
     }
 
-    private void OnHit(Transform enemyHit, float stoppinPower)
+    private void OnHit(Transform enemyHit, float power)
     {
         if (transform != enemyHit) return;
-        hitPoints--;
+        hitPoints -= power;
         if(hitPoints <= 0)
             Die();
         if (!navMeshAgent.enabled) return;
-        StartCoroutine(StoppigPowerEffect(stoppinPower));
+        StartCoroutine(StoppigPowerEffect());
     }
 
-    IEnumerator StoppigPowerEffect(float stoppingPower)
+    IEnumerator StoppigPowerEffect()
     {
 
         navMeshAgent.speed = 0;

@@ -12,6 +12,7 @@ public class Weapons : ScriptableObject
     public float bulletSpeed = 20;
     public float stoppingPower = 0.8f;
     public float power = 1;
+    private bool fastFirstShoot;
 
 
     public Vector3 ApplySpread(Vector3 orginalDirection)
@@ -23,9 +24,15 @@ public class Weapons : ScriptableObject
 
     public bool CanShoot()
     {
+        if (fastFirstShoot)
+        {
+            fastFirstShoot = false; 
+            return true;
+        }
+
         if (!(Time.time > lastShootTime + 1 / fireRate)) return false;
         lastShootTime = Time.time;
         return true;
-
     }
+    
 }

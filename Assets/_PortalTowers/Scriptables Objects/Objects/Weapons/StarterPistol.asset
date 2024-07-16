@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b206f05c7c9bdf449a2e8fc397b9359, type: 3}
-  m_Name: Rifle
+  m_Name: StarterPistol
   m_EditorClassIdentifier: 
   fireRate: 2
-  lastShootTime: 115.68529
+  lastShootTime: 6.5307837
   bulletsPerShot: 1
-  spreadAmout: 0.1
+  spreadAmout: 1
   bulletPrefab: {fileID: 3466685549952159586, guid: 26c993b7c81224044a0e1652f037aa77, type: 3}
   bulletSpeed: 20
-  stoppingPower: 0.8
-  power: 1
+  stoppingPower: 1
+  power: 0.5
