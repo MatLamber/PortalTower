@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> floors;
     [SerializeField] private EnemySetupCollection enemyProgression;
     private List<EnemySetup> enemiesSetupList = new List<EnemySetup>();
+    private List<GameObject> enemiesOnNextLevel = new List<GameObject>();
     private int currentScenario;
     private int currentLevel;
     private bool firstSpawn;
@@ -23,53 +24,42 @@ public class GameManager : MonoBehaviour
     {
         foreach (EnemySetup enemiesSetup in enemyProgression.enemiesSetup)
             enemiesSetupList.Add(enemiesSetup);
-        SetPlayerAndEnemiesIntheCurrentFloor();
         SpawnEnemies();
         EventsManager.Instance.eventEnemyDeath += RemoveEnemyFromLevel;
         EventsManager.Instance.eventTeleportPlayer += TeleportPlayer;
-        EventsManager.Instance.eventLevelFinish += SpawnEnemies;
     }
 
     private void OnDestroy()
     {
         EventsManager.Instance.eventEnemyDeath -= RemoveEnemyFromLevel;
         EventsManager.Instance.eventTeleportPlayer -= TeleportPlayer;
-        EventsManager.Instance.eventLevelFinish -= SpawnEnemies;
-    }
 
-    private void SetPlayerAndEnemiesIntheCurrentFloor()
-    {
-        player.transform.parent = floors[currentScenario].transform;
-        /* foreach (GameObject enemy in enemiesOnLevel)
-             enemy.transform.parent = floors[currentScenario].transform;*/
     }
+    
 
     private void RemoveEnemyFromLevel(Transform enemy)
     {
         if (enemiesOnLevel.Contains(enemy.gameObject))
-        {
             enemiesOnLevel.Remove(enemy.gameObject);
-        }
-
         CheckLevelStatus();
     }
 
     private void CheckLevelStatus()
     {
-        if (enemiesOnLevel.Count == 0)
+        if (enemiesOnLevel.Count > 0) return;
+        foreach (GameObject enemies in enemiesOnNextLevel)
         {
-            if (currentScenario == 0)
-            {
-                currentScenario = 1;
-            }
-            else if (currentScenario == 1)
-            {
-                currentScenario = 0;
-            }
-
-            currentLevel++;
-            EventsManager.Instance.OnLevelFinish();
+            enemiesOnLevel.Add(enemies);
         }
+        currentLevel++;
+        StartCoroutine(LevelFinishDelay());
+    }
+
+    IEnumerator LevelFinishDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        EventsManager.Instance.OnLevelFinish();
+        SpawnEnemies();
     }
 
 
@@ -79,54 +69,31 @@ public class GameManager : MonoBehaviour
         Joystick.Instance.HideJoystick();
         player.transform.position = playerStartPoints[1].position;
         Joystick.Instance.Teleporting = false;
-        Invoke(nameof(ChangeFloorPositions), 0.3f);
     }
-
-
-    private void ChangeFloorPositions()
-    {
-        foreach (GameObject enemy in enemiesOnLevel)
-            enemy.GetComponent<NavMeshAgent>().enabled = false;
-        if (currentScenario == 0)
-        {
-            (floors[0].transform.position, floors[1].transform.position) = (floors[1].transform.position, floors[0].transform.position);
-        }
-        else
-        {
-            (floors[1].transform.position, floors[0].transform.position) = (floors[0].transform.position, floors[1].transform.position);
-        }
-
-        foreach (GameObject enemy in enemiesOnLevel)
-            enemy.GetComponent<NavMeshAgent>().enabled = true;
-    }
-
 
     private void SpawnEnemies()
     {
         if (currentLevel >= enemiesSetupList.Count)
             currentLevel = Random.Range(0, enemiesSetupList.Count - 1);
-
-        int index = currentScenario;
-        if (index == 0 && firstSpawn)
+        
+        if (currentLevel == 0)
         {
-            index = 1;
+            foreach (Enemy enemy in enemiesSetupList[currentLevel].enemies)
+            {
+                GameObject newEnemy = Instantiate(enemy.prefab, enemyStartPoints[currentLevel].transform.position,
+                    quaternion.LookRotation(-player.transform.forward, player.transform.up),
+                    floors[currentScenario].transform);
+                newEnemy.GetComponent<EnemyController>().Target = player.transform;
+                enemiesOnLevel.Add(newEnemy);
+            }
         }
-
-        foreach (Enemy enemy in enemiesSetupList[currentLevel].enemies)
+        foreach (Enemy enemy in enemiesSetupList[currentLevel + 1].enemies)
         {
-            GameObject newEnemy = Instantiate(enemy.prefab, enemyStartPoints[index].transform.position,
+            GameObject newEnemy = Instantiate(enemy.prefab, enemyStartPoints[currentLevel + 1].transform.position,
                 quaternion.LookRotation(-player.transform.forward, player.transform.up),
                 floors[currentScenario].transform);
             newEnemy.GetComponent<EnemyController>().Target = player.transform;
-            /* GameObject newEnemy = ObjectPool.Instance.GetObjet(enemy.prefab);
-            newEnemy.transform.position = enemyStartPoints[index].transform.position;
-            newEnemy.transform.rotation = quaternion.LookRotation(-player.transform.forward,newEnemy.transform.up);
-            newEnemy.GetComponent<EnemyController>().Target = player.transform;*/
-            enemiesOnLevel.Add(newEnemy);
-            if (!firstSpawn)
-                firstSpawn = true;
+            enemiesOnNextLevel.Add(newEnemy);
         }
-
-        SetPlayerAndEnemiesIntheCurrentFloor();
     }
 }
