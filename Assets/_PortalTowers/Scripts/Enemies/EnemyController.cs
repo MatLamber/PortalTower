@@ -10,7 +10,8 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private Enemy data;
-    [SerializeField] private GameObject enemyPrefab; 
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private bool useExtraForce;
     private Collider collider => GetComponent<Collider>();
     private NavMeshAgent navMeshAgent => GetComponent<NavMeshAgent>();
     private EnemyAnimationController animator => GetComponent<EnemyAnimationController>();
@@ -19,7 +20,14 @@ public class EnemyController : MonoBehaviour
 
     private Transform target;
 
-
+    private float aggresionRange;
+    private bool follow;
+    private float hitPoints;
+    private float originalSpeed;
+    private int flyAwayForce = 200;
+    private int extraForce = 500;
+    
+    private bool isDead;
     public Transform Target
     {
         get => target;
@@ -27,11 +35,6 @@ public class EnemyController : MonoBehaviour
     }
     
 
-
-    private float aggresionRange;
-    private bool follow;
-    private int hitPoints;
-    
     private void Start()
     {
         SetData();
@@ -76,8 +79,8 @@ public class EnemyController : MonoBehaviour
         {
                 enemyRigidbodies[i].isKinematic = false;
                 
-                enemyRigidbodies[i].AddForce( -enemyPrefab.transform.forward * 700);
-                enemyRigidbodies[i].AddForce(enemyPrefab.transform.up * 700);
+                enemyRigidbodies[i].AddForce( -enemyPrefab.transform.forward * flyAwayForce);
+                enemyRigidbodies[i].AddForce(enemyPrefab.transform.up * flyAwayForce);
         }
 
         StartCoroutine(GoTroughFloor());
@@ -89,20 +92,14 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.enabled = true;
         transform.GetComponent<Collider>().enabled = true;
         animator.Animator.enabled = true;
-        for (int i = 0; i < enemyRigidbodies.Length; i++)
+        foreach (var t in enemyRigidbodies)
         {
-            enemyRigidbodies[i].isKinematic = true;
+            t.useGravity = true;
+            t.isKinematic = false;
         }
-        
-        for (int i = 0; i < enemyRigidbodies.Length; i++)
+        foreach (var t in enemyColliders)
         {
-            enemyRigidbodies[i].useGravity = true;
-            enemyRigidbodies[i].isKinematic = false;
-        }
-
-        for (int i = 0; i < enemyColliders.Length; i++)
-        {
-            enemyColliders[i].isTrigger = false;
+            t.isTrigger = false;
         }
 
     }
@@ -134,20 +131,32 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position,aggresionRange);    
     }
 
-    private void OnHit(Transform enemyHit)
+    private void OnHit(Transform enemyHit, float stoppinPower)
     {
-        if (transform == enemyHit)
-        {
-            hitPoints--;
-            if(hitPoints <= 0)
-                Die();
-        }
+        if (transform != enemyHit) return;
+        hitPoints--;
+        if(hitPoints <= 0)
+            Die();
+        if (!navMeshAgent.enabled) return;
+        StartCoroutine(StoppigPowerEffect(stoppinPower));
+    }
+
+    IEnumerator StoppigPowerEffect(float stoppingPower)
+    {
+
+        navMeshAgent.speed = 0;
+        animator.PlayReactionAnimation();
+        yield return new WaitForSeconds(0.4f);
+        navMeshAgent.speed = originalSpeed;
     }
     
     private void SetData()
     {
         aggresionRange = data.aggressionRange;
         hitPoints = data.hitPoints;
+        if (useExtraForce)
+            flyAwayForce += extraForce;
+
     }
 
     private void InitalNavMesh()
@@ -165,6 +174,7 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         navMeshAgent.isStopped = true;
         navMeshAgent.speed *= data.speed;
+        originalSpeed = navMeshAgent.speed;
     }
 
 

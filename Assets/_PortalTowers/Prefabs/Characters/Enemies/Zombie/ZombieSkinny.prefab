@@ -1134,6 +1134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: e7ab5afae706643a09f2ae396ee614f7, type: 2}
   enemyPrefab: {fileID: 6118923920220282006}
+  useExtraForce: 0
 --- !u!114 &3344847211514953028
 MonoBehaviour:
   m_ObjectHideFlags: 0

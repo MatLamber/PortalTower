@@ -52,6 +52,7 @@ public class PlayerWeaponController : MonoBehaviour
             GameObject newBullet = ObjectPool.Instance.GetObjet(currentWeaponData.bulletPrefab);
             newBullet.transform.position = gunPoint.position;
             newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
+            newBullet.GetComponent<BulletController>().StoppingPower = currentWeaponData.stoppingPower;
             Vector3 bulletDirection = currentWeaponData.ApplySpread(gunPoint.forward);
             newBullet.GetComponent<Rigidbody>().velocity = bulletDirection * currentWeaponData.bulletSpeed;
         }

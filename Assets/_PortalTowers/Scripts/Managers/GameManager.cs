@@ -9,8 +9,8 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemiesOnLevel;
-    [SerializeField] private List<Transform>  playerStartPoints;
-    [SerializeField] private List<Transform>  enemyStartPoints;
+    [SerializeField] private List<Transform> playerStartPoints;
+    [SerializeField] private List<Transform> enemyStartPoints;
     [SerializeField] private GameObject player;
     [SerializeField] private List<GameObject> floors;
     [SerializeField] private EnemySetupCollection enemyProgression;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private int currentScenario;
     private int currentLevel;
     private bool firstSpawn;
+
     private void Start()
     {
         foreach (EnemySetup enemiesSetup in enemyProgression.enemiesSetup)
@@ -35,12 +36,12 @@ public class GameManager : MonoBehaviour
         EventsManager.Instance.eventTeleportPlayer -= TeleportPlayer;
         EventsManager.Instance.eventLevelFinish -= SpawnEnemies;
     }
-    
+
     private void SetPlayerAndEnemiesIntheCurrentFloor()
     {
         player.transform.parent = floors[currentScenario].transform;
-       /* foreach (GameObject enemy in enemiesOnLevel)
-            enemy.transform.parent = floors[currentScenario].transform;*/
+        /* foreach (GameObject enemy in enemiesOnLevel)
+             enemy.transform.parent = floors[currentScenario].transform;*/
     }
 
     private void RemoveEnemyFromLevel(Transform enemy)
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
         {
             enemiesOnLevel.Remove(enemy.gameObject);
         }
+
         CheckLevelStatus();
     }
 
@@ -64,24 +66,20 @@ public class GameManager : MonoBehaviour
             {
                 currentScenario = 0;
             }
-            
+
             currentLevel++;
             EventsManager.Instance.OnLevelFinish();
         }
-
     }
 
 
     private void TeleportPlayer()
     {
-        Debug.Log("TELEPORT");
         Joystick.Instance.Teleporting = true;
         Joystick.Instance.HideJoystick();
-        Debug.Log($"{playerStartPoints[currentScenario]}");
         player.transform.position = playerStartPoints[1].position;
         Joystick.Instance.Teleporting = false;
-        Invoke(nameof(ChangeFloorPositions),0.3f);
-        
+        Invoke(nameof(ChangeFloorPositions), 0.3f);
     }
 
 
@@ -91,31 +89,23 @@ public class GameManager : MonoBehaviour
             enemy.GetComponent<NavMeshAgent>().enabled = false;
         if (currentScenario == 0)
         {
-            Vector3 auxPosition = floors[0].transform.position;
-            floors[0].transform.position = floors[1].transform.position;
-            floors[1].transform.position = auxPosition;
+            (floors[0].transform.position, floors[1].transform.position) = (floors[1].transform.position, floors[0].transform.position);
         }
         else
         {
-            Vector3 auxPosition = floors[1].transform.position;
-            floors[1].transform.position = floors[0].transform.position;
-            floors[0].transform.position = auxPosition;
+            (floors[1].transform.position, floors[0].transform.position) = (floors[0].transform.position, floors[1].transform.position);
         }
 
         foreach (GameObject enemy in enemiesOnLevel)
             enemy.GetComponent<NavMeshAgent>().enabled = true;
-        
-
-
     }
 
 
     private void SpawnEnemies()
     {
-       
         if (currentLevel >= enemiesSetupList.Count)
-            currentLevel = Random.Range(0,enemiesSetupList.Count-1);
-        
+            currentLevel = Random.Range(0, enemiesSetupList.Count - 1);
+
         int index = currentScenario;
         if (index == 0 && firstSpawn)
         {
@@ -124,10 +114,10 @@ public class GameManager : MonoBehaviour
 
         foreach (Enemy enemy in enemiesSetupList[currentLevel].enemies)
         {
-
-           GameObject newEnemy = Instantiate(enemy.prefab, enemyStartPoints[index].transform.position,
-               quaternion.LookRotation(-player.transform.forward, player.transform.up),floors[currentScenario].transform);
-           newEnemy.GetComponent<EnemyController>().Target = player.transform;
+            GameObject newEnemy = Instantiate(enemy.prefab, enemyStartPoints[index].transform.position,
+                quaternion.LookRotation(-player.transform.forward, player.transform.up),
+                floors[currentScenario].transform);
+            newEnemy.GetComponent<EnemyController>().Target = player.transform;
             /* GameObject newEnemy = ObjectPool.Instance.GetObjet(enemy.prefab);
             newEnemy.transform.position = enemyStartPoints[index].transform.position;
             newEnemy.transform.rotation = quaternion.LookRotation(-player.transform.forward,newEnemy.transform.up);
@@ -136,6 +126,7 @@ public class GameManager : MonoBehaviour
             if (!firstSpawn)
                 firstSpawn = true;
         }
+
         SetPlayerAndEnemiesIntheCurrentFloor();
     }
 }
