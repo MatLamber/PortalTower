@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(EnemyAnimationController))]
 public class EnemyController : MonoBehaviour
@@ -12,6 +14,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Enemy data;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private bool useExtraForce;
+    [SerializeField] private GameObject healthUI;
+    [SerializeField] private Image healthFill;
+    [SerializeField] private GameObject damageText;
     private Collider collider => GetComponent<Collider>();
     private NavMeshAgent navMeshAgent => GetComponent<NavMeshAgent>();
     private EnemyAnimationController animator => GetComponent<EnemyAnimationController>();
@@ -26,6 +31,7 @@ public class EnemyController : MonoBehaviour
     private float originalSpeed;
     private int flyAwayForce = 200;
     private int extraForce = 500;
+    
 
     private bool isDead;
     public Transform Target
@@ -37,6 +43,7 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
+        healthUI.SetActive(false);
         SetData();
         InitalNavMesh();
         EventsManager.Instance.eventEnemyHit += OnHit;
@@ -65,7 +72,9 @@ public class EnemyController : MonoBehaviour
 
     private void Die()
     {
+        
         collider.tag = "Untagged";
+        healthUI.SetActive(false);
         EnableRigidBody();
         EventsManager.Instance.OnEnemyDeath(transform);
     }
@@ -134,7 +143,10 @@ public class EnemyController : MonoBehaviour
     private void OnHit(Transform enemyHit, float power)
     {
         if (transform != enemyHit) return;
+        healthUI.SetActive(true);
         hitPoints -= power;
+        ShowDamageText(power);
+        SetHealthFillBar();
         if(hitPoints <= 0)
             Die();
         if (!navMeshAgent.enabled) return;
@@ -175,6 +187,23 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.isStopped = true;
         navMeshAgent.speed *= data.speed;
         originalSpeed = navMeshAgent.speed;
+    }
+
+    private void SetHealthFillBar()
+    {
+        healthFill.fillAmount = hitPoints / data.hitPoints;
+    }
+
+    private void ShowDamageText(float damage)
+    {
+        GameObject newDamageText =  ObjectPool.Instance.GetObjet(damageText);
+        newDamageText.transform.parent = healthUI.transform;
+        newDamageText.GetComponent<TextMeshProUGUI>().text = (-damage).ToString();
+        newDamageText.transform.localPosition = new Vector3(0,500,0);
+        newDamageText.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
+        newDamageText.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        newDamageText.transform.DOLocalMoveY(900, 0.3f).SetEase(Ease.OutBack);
+        ObjectPool.Instance.ReturnObject(newDamageText,0.4f);
     }
 
 

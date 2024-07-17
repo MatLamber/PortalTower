@@ -13,12 +13,14 @@ public class CameraManager : MonoBehaviour
     {
         EventsManager.Instance.eventLevelFinish += EnableGeneralCamera;
         EventsManager.Instance.eventTeleportPlayer += EnablePlayerCamera;
+        EventsManager.Instance.eventTeleportPlayer += MoveGeneralCameraUp;
     }
 
     private void OnDestroy()
     {
         EventsManager.Instance.eventLevelFinish -= EnableGeneralCamera;
         EventsManager.Instance.eventTeleportPlayer -= EnablePlayerCamera;
+        EventsManager.Instance.eventTeleportPlayer -= MoveGeneralCameraUp;
     }
 
 
@@ -38,6 +40,11 @@ public class CameraManager : MonoBehaviour
     {
         playerCamera.Priority = 1;
         generalCamera.Priority = 0;
+    }
+
+    private void MoveGeneralCameraUp()
+    {
+        generalCamera.transform.position += new Vector3(0, 8, 0);
     }
     
 }

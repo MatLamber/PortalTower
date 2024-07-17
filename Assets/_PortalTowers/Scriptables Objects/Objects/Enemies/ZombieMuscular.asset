@@ -16,4 +16,4 @@ MonoBehaviour:
   name: Muscular
   speed: 1
   hitPoints: 5
-  aggressionRange: 2.6
+  aggressionRange: 6

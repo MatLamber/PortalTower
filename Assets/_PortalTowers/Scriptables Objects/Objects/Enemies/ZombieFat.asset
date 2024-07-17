@@ -16,4 +16,4 @@ MonoBehaviour:
   name: Fat
   speed: 0.5
   hitPoints: 10
-  aggressionRange: 2.6
+  aggressionRange: 6

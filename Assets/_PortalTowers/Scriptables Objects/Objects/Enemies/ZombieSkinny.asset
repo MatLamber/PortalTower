@@ -16,4 +16,4 @@ MonoBehaviour:
   name: Skinny
   speed: 2.5
   hitPoints: 3
-  aggressionRange: 2.6
+  aggressionRange: 6

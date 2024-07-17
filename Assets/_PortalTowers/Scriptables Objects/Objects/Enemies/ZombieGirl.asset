@@ -16,4 +16,4 @@ MonoBehaviour:
   name: Girl
   speed: 3.5
   hitPoints: 1
-  aggressionRange: 2.6
+  aggressionRange: 6
