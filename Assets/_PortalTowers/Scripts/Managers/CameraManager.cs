@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using DG.Tweening;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -38,13 +39,25 @@ public class CameraManager : MonoBehaviour
 
     private void EnablePlayerCamera()
     {
+        StartCoroutine(PlayerCameraDelay());
+    }
+ 
+    IEnumerator PlayerCameraDelay()
+    {
+        yield return new WaitForSeconds(1.2f);
+        CinemachineTransposer transposer = playerCamera.GetCinemachineComponent<CinemachineTransposer>();
+        transposer.m_FollowOffset.z += 2.3f;
         playerCamera.Priority = 1;
         generalCamera.Priority = 0;
     }
 
     private void MoveGeneralCameraUp()
     {
-        generalCamera.transform.position += new Vector3(0, 8, 0);
+        generalCamera.transform.DOMoveY(generalCamera.transform.position.y + 8, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
+        generalCamera.transform.DOMoveZ(generalCamera.transform.position.z + 2.3f, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
+        
     }
+
+
     
 }

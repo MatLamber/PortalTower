@@ -186,7 +186,7 @@ public class EnemyController : MonoBehaviour
     IEnumerator StoppigPowerEffect()
     {
 
-        navMeshAgent.speed = 0;
+        navMeshAgent.speed = 1;
         animator.PlayReactionAnimation();
         yield return new WaitForSeconds(0.35f);
         navMeshAgent.speed = originalSpeed;

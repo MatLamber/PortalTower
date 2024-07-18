@@ -10,6 +10,8 @@ public class PortalControllers : MonoBehaviour
     private bool doorCrossed;
     private bool canBeCrossed;
 
+    [SerializeField] private ParticleSystem crossingEffect;
+
     private void Start()
     {
         EventsManager.Instance.eventLevelFinish += ShowDoor;
@@ -28,7 +30,7 @@ public class PortalControllers : MonoBehaviour
     {
         canBeCrossed = false;
         doorCrossed = false;
-        transform.DOScale(Vector3.zero,0.3f);
+        transform.DOScale(Vector3.zero,0.3f).SetDelay(0.3f);
 
     }
 
@@ -46,6 +48,7 @@ public class PortalControllers : MonoBehaviour
         if(!canBeCrossed) return;
         if (other.tag.Equals(playerTagName) && !doorCrossed )
         {
+            crossingEffect.Play();
             doorCrossed = true;
             EventsManager.Instance.OnTeleportPlayer();
         }

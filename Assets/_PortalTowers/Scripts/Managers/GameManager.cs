@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> floors;
     [SerializeField] private EnemySetupCollection enemyProgression;
     [SerializeField] private GameObject portalsContainer;
+    [SerializeField] private List<GameObject> portalFx;
     
     private List<EnemySetup> enemiesSetupList = new List<EnemySetup>();
     private List<GameObject> enemiesOnNextLevel = new List<GameObject>();
@@ -24,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private Vector3 localPortalsPosition = new Vector3(-2.5f, -0.5f, -3.7f);
 
+   [SerializeField] private GameObject playerPrefab;
     private void Start()
     {
         foreach (EnemySetup enemiesSetup in enemyProgression.enemiesSetup)
@@ -66,11 +69,24 @@ public class GameManager : MonoBehaviour
     {
         Joystick.Instance.Teleporting = true;
         Joystick.Instance.HideJoystick();
-        player.transform.position = playerStartPoints[currentLevel].position;
-        Joystick.Instance.Teleporting = false;
+        //LeanTween.scale(playerPrefab, Vector3.zero,0.3f).setOnComplete((() => {player.transform.position = playerStartPoints[currentLevel].position;}));
+        //LeanTween.scale(playerPrefab, new Vector3(1,1,1),0.3f).setDelay(0.5f).setOnComplete((() =>Joystick.Instance.Teleporting = false));
+        playerPrefab.transform.DOScale(new Vector3(0.0001f,0.0001f,1f), 0.3f).OnComplete((() =>
+        {       
+            GameObject newPortalFx = ObjectPool.Instance.GetObjet(portalFx[0]);
+            player.transform.position = playerStartPoints[currentLevel].position;
+            newPortalFx.transform.position = player.transform.position + new Vector3(0,1,0);
+            newPortalFx.transform.DOScale(new Vector3(1, 1, 1), 0.3f).SetEase(Ease.OutBack);
+            newPortalFx.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutBack).SetDelay(1.5f).OnComplete((() => ObjectPool.Instance.ReturnObject(newPortalFx,0) ));
+
+        }));
+        playerPrefab.transform.DORotate(new Vector3(360, 360, 360), 0.8f, RotateMode.FastBeyond360);
+        playerPrefab.transform.DOLocalMoveY(3, 0.5f).OnComplete( (() => player.transform.GetChild(0).DOLocalMoveY(0, 0.3f)));
+        playerPrefab.transform.DOScale(new Vector3(1,1,1), 0.3f).SetEase(Ease.InBack).SetDelay(0.6f).OnComplete( (() => Joystick.Instance.Teleporting = false));
         currentScenario++;
         SetPortalsAsChildOfCurrentFloor(currentScenario);
     }
+    
     private void SpawnEnemies()
     {
         if (currentLevel >= enemiesSetupList.Count)
@@ -78,7 +94,8 @@ public class GameManager : MonoBehaviour
         
         if (currentLevel == 0)
             enemiesOnLevel =  SpawnEnemiesFromList(enemiesSetupList[currentLevel].enemies,currentLevel,currentScenario);
-        enemiesOnNextLevel = SpawnEnemiesFromList(enemiesSetupList[currentLevel + 1].enemies, currentLevel + 1,currentScenario+1); 
+        if (currentLevel + 1 < enemiesSetupList.Count)
+            enemiesOnNextLevel = SpawnEnemiesFromList(enemiesSetupList[currentLevel + 1].enemies, currentLevel + 1,currentScenario+1); 
 
     }
 
