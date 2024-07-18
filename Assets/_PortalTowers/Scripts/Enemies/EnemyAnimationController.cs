@@ -33,7 +33,7 @@ public class EnemyAnimationController : MonoBehaviour
         animator.SetLayerWeight(0,0);
         animator.SetLayerWeight(reactionLayer, 1);
         animator.SetTrigger(reactParameter);
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.35f);
         animator.SetLayerWeight(0,1);
         animator.SetLayerWeight(reactionLayer, 0);
         

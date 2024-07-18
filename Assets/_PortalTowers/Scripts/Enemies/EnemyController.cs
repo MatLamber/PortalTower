@@ -31,8 +31,8 @@ public class EnemyController : MonoBehaviour
     private bool follow;
     private float hitPoints;
     private float originalSpeed;
-    private int flyAwayForce = 100;
-    private int extraForce = 20;
+    private float flyAwayForce = 800;
+    private float extraForce = 200;
 
     private List<Material> materials = new List<Material>();
     private List<Material> originalMaterials = new List<Material>();
@@ -117,9 +117,8 @@ public class EnemyController : MonoBehaviour
         {
                 enemyRigidbodies[i].isKinematic = false;
                 
-               // enemyRigidbodies[i].AddForce( -enemyPrefab.transform.forward * flyAwayForce);
-                enemyRigidbodies[i].velocity = -enemyPrefab.transform.forward * flyAwayForce;
-               // enemyRigidbodies[i].AddForce(enemyPrefab.transform.up * flyAwayForce);
+                enemyRigidbodies[i].AddForce( -enemyPrefab.transform.forward * flyAwayForce);
+                enemyRigidbodies[i].AddForce(enemyPrefab.transform.up * flyAwayForce);
         }
 
         StartCoroutine(GoTroughFloor());
@@ -189,7 +188,7 @@ public class EnemyController : MonoBehaviour
 
         navMeshAgent.speed = 0;
         animator.PlayReactionAnimation();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.35f);
         navMeshAgent.speed = originalSpeed;
     }
     
