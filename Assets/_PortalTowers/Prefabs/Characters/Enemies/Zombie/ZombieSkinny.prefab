@@ -1189,6 +1189,7 @@ GameObject:
   - component: {fileID: 3344847211514953028}
   - component: {fileID: 3344847211514953029}
   - component: {fileID: 3344847211514953030}
+  - component: {fileID: 457973750891226361}
   m_Layer: 0
   m_Name: ZombieSkinny
   m_TagString: Enemy
@@ -1253,6 +1254,10 @@ MonoBehaviour:
   healthUI: {fileID: 831466222960307503}
   healthFill: {fileID: 2783710376569425706}
   damageText: {fileID: 4895904759860347245, guid: f2e758177a80d426a848c84591eba7d5, type: 3}
+  bodyParts:
+  - {fileID: 4869001930772781149}
+  - {fileID: 5408904564599727282}
+  flashColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &3344847211514953028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1295,6 +1300,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &457973750891226361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344847211514953026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0.023584902, b: 0.023584902, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &3400897603333628248
 GameObject:
   m_ObjectHideFlags: 0

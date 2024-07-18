@@ -195,6 +195,7 @@ public class PlayerAnimator : MonoBehaviour
                 onTarget = true;
                 targetFolow = newTarget;
                 SetLayerWeight(currentWeaponLayer);
+                EventsManager.Instance.OnEnemyLockedIn(onTarget, newTarget );
             }
         }
         else
@@ -204,9 +205,10 @@ public class PlayerAnimator : MonoBehaviour
             {
                 onTarget = true;
                 targetFolow = newTarget;
+                EventsManager.Instance.OnEnemyLockedIn(onTarget, newTarget );
             }
         }
-        EventsManager.Instance.OnEnemyLockedIn(onTarget);
+
     }
 
     private void FreeTargetLocking(Transform enemyTransfrom = null)
@@ -221,6 +223,6 @@ public class PlayerAnimator : MonoBehaviour
                 TurnOffAllAnimationLayers();
             }
         }
-        EventsManager.Instance.OnEnemyLockedIn(onTarget);
+        EventsManager.Instance.OnEnemyLockedIn(onTarget,enemyTransfrom);
     }
 }

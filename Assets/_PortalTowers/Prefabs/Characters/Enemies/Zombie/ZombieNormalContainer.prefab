@@ -411,7 +411,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4981497628017492593}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6747475764847587855
 SkinnedMeshRenderer:
@@ -576,7 +576,7 @@ Transform:
   m_Children:
   - {fileID: 8350306384289270349}
   m_Father: {fileID: 4981497628017492593}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2658383737945726497
 GameObject:
@@ -713,7 +713,7 @@ MonoBehaviour:
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0.852
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -797,6 +797,7 @@ GameObject:
   - component: {fileID: 3344847211514953028}
   - component: {fileID: 3344847211514953029}
   - component: {fileID: 3344847211514953030}
+  - component: {fileID: 1701603825694359778}
   m_Layer: 0
   m_Name: ZombieNormalContainer
   m_TagString: Enemy
@@ -816,7 +817,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2535198035448462229}
   - {fileID: 4981497628017492593}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -861,6 +861,10 @@ MonoBehaviour:
   healthUI: {fileID: 4272669744085054180}
   healthFill: {fileID: 1948260881712925194}
   damageText: {fileID: 4895904759860347245, guid: f2e758177a80d426a848c84591eba7d5, type: 3}
+  bodyParts:
+  - {fileID: 6055885390129445064}
+  - {fileID: 6747475764847587855}
+  flashColor: {r: 0.9150943, g: 0.39128622, b: 0.35826805, a: 0}
 --- !u!114 &3344847211514953028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,6 +907,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &1701603825694359778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344847211514953026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 0.023584902, b: 0.023584902, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &3399673251055499905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,7 +1483,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8699647324874563136}
-  m_Father: {fileID: 3344847211514953024}
+  m_Father: {fileID: 4981497628017492593}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1812,7 +1834,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4981497628017492593}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6055885390129445064
 SkinnedMeshRenderer:
@@ -2008,11 +2030,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2535198035448462229}
   - {fileID: 4148097701940351727}
   - {fileID: 8898632444422254496}
   - {fileID: 817964475565935191}
   m_Father: {fileID: 3344847211514953024}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1423693180453443595
 Animator:

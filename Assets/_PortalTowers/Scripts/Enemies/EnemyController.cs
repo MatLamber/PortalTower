@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(EnemyAnimationController))]
+[RequireComponent(typeof(NavMeshAgent), typeof(EnemyAnimationController)), RequireComponent(typeof(Outline))]
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private Enemy data;
@@ -17,6 +17,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject healthUI;
     [SerializeField] private Image healthFill;
     [SerializeField] private GameObject damageText;
+    [SerializeField] private List<Renderer> bodyParts;
+    [SerializeField] private Color flashColor;
     private Collider collider => GetComponent<Collider>();
     private NavMeshAgent navMeshAgent => GetComponent<NavMeshAgent>();
     private EnemyAnimationController animator => GetComponent<EnemyAnimationController>();
@@ -29,17 +31,35 @@ public class EnemyController : MonoBehaviour
     private bool follow;
     private float hitPoints;
     private float originalSpeed;
-    private int flyAwayForce = 200;
-    private int extraForce = 500;
-    
+    private int flyAwayForce = 100;
+    private int extraForce = 20;
 
+    private List<Material> materials = new List<Material>();
+    private List<Material> originalMaterials = new List<Material>();
+        
     private bool isDead;
+    private static readonly int EmissiveColor = Shader.PropertyToID("_EmissionColor");
+
+    private Outline outline => GetComponent<Outline>();
+    
     public Transform Target
     {
         get => target;
         set => target = value;
     }
-    
+
+
+    private void Awake()
+    {
+        foreach (Renderer bodyPart in bodyParts)
+        {
+            materials.Add(bodyPart.material);
+            originalMaterials.Add(bodyPart.material);
+        }
+        
+        outline.OutlineColor = Color.red;
+        DisableOutLine(false,transform);
+    }
 
     private void Start()
     {
@@ -47,11 +67,13 @@ public class EnemyController : MonoBehaviour
         SetData();
         InitalNavMesh();
         EventsManager.Instance.eventEnemyHit += OnHit;
+        EventsManager.Instance.eventEnemyLockedIn += EnableOutline;
     }
 
     private void OnDestroy()
     {
-       EventsManager.Instance.eventEnemyHit -= OnHit;
+        EventsManager.Instance.eventEnemyLockedIn -= EnableOutline;
+         EventsManager.Instance.eventEnemyHit -= OnHit;
     }
 
     private void Update()
@@ -68,12 +90,19 @@ public class EnemyController : MonoBehaviour
             if(follow && Vector3.Distance(target.position, transform.position) > navMeshAgent.stoppingDistance)
                 navMeshAgent.SetDestination(target.position);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+      
+        }
     }
 
     private void Die()
     {
-        
+        isDead = true;
         collider.tag = "Untagged";
+        DisableOutLine(false,transform);
+        ChangeToDeadMaterial();
         healthUI.SetActive(false);
         EnableRigidBody();
         EventsManager.Instance.OnEnemyDeath(transform);
@@ -88,8 +117,9 @@ public class EnemyController : MonoBehaviour
         {
                 enemyRigidbodies[i].isKinematic = false;
                 
-                enemyRigidbodies[i].AddForce( -enemyPrefab.transform.forward * flyAwayForce);
-                enemyRigidbodies[i].AddForce(enemyPrefab.transform.up * flyAwayForce);
+               // enemyRigidbodies[i].AddForce( -enemyPrefab.transform.forward * flyAwayForce);
+                enemyRigidbodies[i].velocity = -enemyPrefab.transform.forward * flyAwayForce;
+               // enemyRigidbodies[i].AddForce(enemyPrefab.transform.up * flyAwayForce);
         }
 
         StartCoroutine(GoTroughFloor());
@@ -147,6 +177,7 @@ public class EnemyController : MonoBehaviour
         hitPoints -= power;
         ShowDamageText(power);
         SetHealthFillBar();
+        LeanTween.value(0, 0.5f, 0.1f).setOnUpdate((f => FlashMaterialsOnHit(f))).setLoopPingPong(1);
         if(hitPoints <= 0)
             Die();
         if (!navMeshAgent.enabled) return;
@@ -158,7 +189,7 @@ public class EnemyController : MonoBehaviour
 
         navMeshAgent.speed = 0;
         animator.PlayReactionAnimation();
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
         navMeshAgent.speed = originalSpeed;
     }
     
@@ -202,9 +233,43 @@ public class EnemyController : MonoBehaviour
         newDamageText.transform.localPosition = new Vector3(0,500,0);
         newDamageText.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
         newDamageText.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        newDamageText.transform.DOLocalMoveY(900, 0.3f).SetEase(Ease.OutBack);
+        newDamageText.transform.DOLocalMoveY(1200, 0.3f).SetEase(Ease.OutSine);
         ObjectPool.Instance.ReturnObject(newDamageText,0.4f);
     }
+
+    private void FlashMaterialsOnHit(float emissiveIntensity)
+    {
+        
+        foreach (Material material in materials)
+        {
+            material.SetColor(EmissiveColor, Color.white * emissiveIntensity  );
+        }
+    }
+
+    private void ChangeToDeadMaterial()
+    {
+        foreach (Material material in materials)
+        {
+            material.color = Color.gray;
+            
+        }
+    }
+
+    public void EnableOutline(bool value,Transform enemyTransform)
+    {
+        
+        if(enemyTransform is null || isDead) return;        
+        outline.OutlineWidth = transform == enemyTransform ? 2 : 0;
+    }
+
+    public void DisableOutLine(bool value,Transform enemyTransform)
+    {
+        if(enemyTransform != null && transform == enemyTransform)
+            outline.OutlineWidth = 0;
+    }
+    
+    
+    
 
 
 }

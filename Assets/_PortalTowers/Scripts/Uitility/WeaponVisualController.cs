@@ -147,7 +147,7 @@ public class WeaponVisualController : MonoBehaviour
     }
 
 
-    private void UpdateTargetLockedInState(bool state)
+    private void UpdateTargetLockedInState(bool state, Transform enemylocked)
     {
         
         onTarget = state;

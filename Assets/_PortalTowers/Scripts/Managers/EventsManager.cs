@@ -23,7 +23,7 @@ public class EventsManager : MonoBehaviour
     public Action<Vector3> eventJoyStrickMove;
     public Action eventPlayerShoot;
     public Action <int,Transform> eventSwitchedWepon;
-    public Action<bool> eventEnemyLockedIn;
+    public Action<bool, Transform> eventEnemyLockedIn;
     public Action<Transform, float> eventEnemyHit;
     public Action <Transform> eventEnemyDeath;
     public Action eventLevelFinish;
@@ -31,7 +31,7 @@ public class EventsManager : MonoBehaviour
     public void OnJoystickMove(Vector3 moveVector) => eventJoyStrickMove?.Invoke(moveVector);
     public void OnPlayerShoot() => eventPlayerShoot?.Invoke();
     public void OnSwitchedWeapon(int weaponIDonAnimationLayer, Transform weaponTransform = null) => eventSwitchedWepon?.Invoke(weaponIDonAnimationLayer, weaponTransform);
-    public void OnEnemyLockedIn(bool state) => eventEnemyLockedIn?.Invoke(state);
+    public void OnEnemyLockedIn(bool state, Transform enemyLocked) => eventEnemyLockedIn?.Invoke(state,enemyLocked);
     public void OnEnemyHit(Transform enemyTransfrom, float power) => eventEnemyHit?.Invoke(enemyTransfrom, power);
     public void OnEnemyDeath(Transform enemyTransfrom) => eventEnemyDeath?.Invoke(enemyTransfrom);
     public void OnLevelFinish() => eventLevelFinish?.Invoke();
