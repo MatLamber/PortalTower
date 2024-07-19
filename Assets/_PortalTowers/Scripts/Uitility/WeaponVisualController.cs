@@ -43,11 +43,13 @@ public class WeaponVisualController : MonoBehaviour
     private void Start()
     {
         EventsManager.Instance.eventEnemyLockedIn += UpdateTargetLockedInState;
+        EventsManager.Instance.eventSelectedOption += OnSelectedOption;
         StartCoroutine(FirstWeaponDelay());
     }
 
     private void OnDestroy()
     {
+        EventsManager.Instance.eventSelectedOption -= OnSelectedOption;
         EventsManager.Instance.eventEnemyLockedIn -= UpdateTargetLockedInState;
     }
 
@@ -82,6 +84,30 @@ public class WeaponVisualController : MonoBehaviour
             gunTransform.gameObject.SetActive(true);
         OnSwitchedWeapon(gunTransform);
         
+    }
+
+    private void OnSelectedOption(string optionName)
+    {
+        if (optionName.Equals(pistolName))
+        {
+            SwitchOnGuns(pistol);
+        }
+        else if (optionName.Equals(rifleName))
+        {
+            SwitchOnGuns(rifle);
+        }
+        else if (optionName.Equals(rocketLauncherlName))
+        {
+            SwitchOnGuns(bazooka);
+        }
+        else if (optionName.Equals(starterPitolName))
+        {
+            SwitchOnGuns(starterPistol);
+        }
+        else if (optionName.Equals(shotgunName))
+        {
+            SwitchOnGuns(shotgun);
+        }
     }
 
     private void OnSwitchedWeapon(Transform gunTransform = null)

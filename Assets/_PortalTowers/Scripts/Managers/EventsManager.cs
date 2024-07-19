@@ -28,6 +28,8 @@ public class EventsManager : MonoBehaviour
     public Action <Transform> eventEnemyDeath;
     public Action eventLevelFinish;
     public Action eventTeleportPlayer;
+    public Action <bool> eventPlayerHit;
+    public Action<string> eventSelectedOption;
     public void OnJoystickMove(Vector3 moveVector) => eventJoyStrickMove?.Invoke(moveVector);
     public void OnPlayerShoot() => eventPlayerShoot?.Invoke();
     public void OnSwitchedWeapon(int weaponIDonAnimationLayer, Transform weaponTransform = null) => eventSwitchedWepon?.Invoke(weaponIDonAnimationLayer, weaponTransform);
@@ -36,5 +38,7 @@ public class EventsManager : MonoBehaviour
     public void OnEnemyDeath(Transform enemyTransfrom) => eventEnemyDeath?.Invoke(enemyTransfrom);
     public void OnLevelFinish() => eventLevelFinish?.Invoke();
     public void OnTeleportPlayer() => eventTeleportPlayer?.Invoke();
+    public void OnPlayerHit(bool wasHit) => eventPlayerHit?.Invoke(wasHit);
+    public void OnSelectedOption(string optionName) => eventSelectedOption?.Invoke(optionName);
 
 }

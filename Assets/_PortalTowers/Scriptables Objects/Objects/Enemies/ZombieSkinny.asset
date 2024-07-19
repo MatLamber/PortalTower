@@ -17,3 +17,4 @@ MonoBehaviour:
   speed: 2.5
   hitPoints: 3
   aggressionRange: 6
+  attackRange: 1

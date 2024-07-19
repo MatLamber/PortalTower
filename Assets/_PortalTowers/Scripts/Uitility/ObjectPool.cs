@@ -30,7 +30,7 @@ public class ObjectPool : MonoBehaviour
             CreateNewObject(poolKey);
         GameObject objectToGet = poolDictonary[poolKey].Dequeue();
         objectToGet.SetActive(true);
-        objectToGet.transform.parent = null;
+        objectToGet.transform.SetParent(null);
         return objectToGet;
     }
 

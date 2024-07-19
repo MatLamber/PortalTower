@@ -42,6 +42,9 @@ public class EnemyController : MonoBehaviour
 
     private Outline outline => GetComponent<Outline>();
     
+    private float attackRange;
+    private bool isAttacking;
+    
     public Transform Target
     {
         get => target;
@@ -80,20 +83,50 @@ public class EnemyController : MonoBehaviour
     {
         if (navMeshAgent.enabled)
         {
-            if (Vector3.Distance(target.position, transform.position) < aggresionRange && !follow)
+            CheckIfPlayerIsOnAggressionRange();
+            if (follow)
             {
-                navMeshAgent.isStopped = false;
-                follow = true;
-                animator.PlayRunAnimation();
+                FollowPlayer();
+                Attack();
             }
-            
-            if(follow && Vector3.Distance(target.position, transform.position) > navMeshAgent.stoppingDistance)
-                navMeshAgent.SetDestination(target.position);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
       
+        }
+    }
+
+    private void Attack()
+    {
+        if (Vector3.Distance(target.position, transform.position) < attackRange && !isAttacking)
+        {
+            isAttacking = true;
+            animator.PlayAttackAnimation();
+            StartCoroutine(CheckIfPlayerWasHist());
+        }
+    }
+
+    IEnumerator CheckIfPlayerWasHist()
+    {
+        yield return new WaitForSeconds(1.3f);
+        EventsManager.Instance.OnPlayerHit(Vector3.Distance(target.position, transform.position) < attackRange && !animator.IsStuned);
+        isAttacking = false;
+    }
+
+    private void FollowPlayer()
+    {
+        if(Vector3.Distance(target.position, transform.position) > navMeshAgent.stoppingDistance)
+            navMeshAgent.SetDestination(target.position);
+    }
+
+    private void CheckIfPlayerIsOnAggressionRange()
+    {
+        if (Vector3.Distance(target.position, transform.position) < aggresionRange && !follow)
+        {
+            navMeshAgent.isStopped = false;
+            follow = true;
+            animator.PlayRunAnimation();
         }
     }
 
@@ -196,6 +229,7 @@ public class EnemyController : MonoBehaviour
     {
         aggresionRange = data.aggressionRange;
         hitPoints = data.hitPoints;
+        attackRange = data.attackRange;
         if (useExtraForce)
             flyAwayForce += extraForce;
 

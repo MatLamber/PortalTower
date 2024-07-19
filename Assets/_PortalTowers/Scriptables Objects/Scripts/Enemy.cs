@@ -7,4 +7,5 @@ public class Enemy : ScriptableObject
     public float speed;
     public int hitPoints;
     public float aggressionRange;
+    public float attackRange;
 }
