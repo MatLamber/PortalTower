@@ -15,6 +15,6 @@ MonoBehaviour:
   prefab: {fileID: 3344847211514953026, guid: dc0ca8b6f5595a24188d850a5828579f, type: 3}
   name: Normal
   speed: 1
-  hitPoints: 3
+  hitPoints: 1
   aggressionRange: 4
   attackRange: 1
