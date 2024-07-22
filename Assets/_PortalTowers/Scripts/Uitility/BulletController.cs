@@ -32,7 +32,7 @@ public class BulletController : MonoBehaviour
             GameObject newImpactFx = ObjectPool.Instance.GetObjet(bulletImpactFX);
             newImpactFx.transform.position = contactPoint.point;
             newImpactFx.transform.rotation = Quaternion.LookRotation(contactPoint.normal);
-            ObjectPool.Instance.ReturnObject(newImpactFx,0.3f);
+            ObjectPool.Instance.ReturnObject(newImpactFx,0.8f);
             
         }
     }

@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69235dfc1457cc847b3a3f2288e588c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletImpactFX: {fileID: 8786109702890723460, guid: 08ddfefbccd0f794bb29f965cb7522ac, type: 3}
+  bulletImpactFX: {fileID: 1198724786340194, guid: 04a364b2bbf61c94ab3601747e300dcc, type: 3}
 --- !u!136 &4501643662982924697
 CapsuleCollider:
   m_ObjectHideFlags: 0

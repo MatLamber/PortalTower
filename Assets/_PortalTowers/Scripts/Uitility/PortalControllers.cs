@@ -19,7 +19,7 @@ public class PortalControllers : MonoBehaviour
 
     private void Start()
     {
-        optionContainer.transform.DORotate(new Vector3(0, 360, 0), 2, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
+
         EventsManager.Instance.eventLevelFinish += ShowDoor;
         EventsManager.Instance.eventTeleportPlayer += HideDoor;
     }
@@ -38,6 +38,9 @@ public class PortalControllers : MonoBehaviour
         doorCrossed = false;
         ObjectPool.Instance.ReturnObject(newObject,0);
         transform.DOScale(Vector3.zero,0.3f).SetDelay(0.3f);
+        optionContainer.transform.DOKill();
+        optionContainer.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
 
     }
 
@@ -51,6 +54,19 @@ public class PortalControllers : MonoBehaviour
         {
             canBeCrossed = true;
         });
+        Debug.Log($"{options[currentSelection].ToString()} \n {OptionType.Rifle.ToString()}");
+        if (options[currentSelection].ToString().Equals(OptionType.Pistol.ToString()) ||
+            options[currentSelection].ToString().Equals(OptionType.Rifle.ToString()) ||
+            options[currentSelection].ToString().Equals(OptionType.RocketLauncher.ToString()) ||
+            options[currentSelection].ToString().Equals(OptionType.Shorty.ToString()))
+        {
+            optionContainer.transform.DORotate(new Vector3(0, 360, 0), 2, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
+        }
+        else
+        {
+            optionContainer.transform.DOLocalMoveY(optionContainer.transform.localPosition.y + 0.3f,1).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+        }
+
 
     }
 

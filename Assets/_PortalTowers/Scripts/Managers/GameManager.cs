@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EnemySetupCollection enemyProgression;
     [SerializeField] private GameObject portalsContainer;
     [SerializeField] private List<GameObject> portalFx;
-    
+
     private List<EnemySetup> enemiesSetupList = new List<EnemySetup>();
     private List<GameObject> enemiesOnNextLevel = new List<GameObject>();
     private int currentScenario;
@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
 
     private Vector3 localPortalsPosition = new Vector3(-2.5f, -0.5f, -3.7f);
 
-   [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject playerPrefab;
+
     private void Start()
     {
         foreach (EnemySetup enemiesSetup in enemyProgression.enemiesSetup)
@@ -40,9 +41,8 @@ public class GameManager : MonoBehaviour
     {
         EventsManager.Instance.eventEnemyDeath -= RemoveEnemyFromLevel;
         EventsManager.Instance.eventTeleportPlayer -= TeleportPlayer;
-
     }
-    
+
     private void RemoveEnemyFromLevel(Transform enemy)
     {
         if (enemiesOnLevel.Contains(enemy.gameObject))
@@ -65,38 +65,50 @@ public class GameManager : MonoBehaviour
         EventsManager.Instance.OnLevelFinish();
         SpawnEnemies();
     }
+
     private void TeleportPlayer()
     {
         Joystick.Instance.Teleporting = true;
         Joystick.Instance.HideJoystick();
-        //LeanTween.scale(playerPrefab, Vector3.zero,0.3f).setOnComplete((() => {player.transform.position = playerStartPoints[currentLevel].position;}));
-        //LeanTween.scale(playerPrefab, new Vector3(1,1,1),0.3f).setDelay(0.5f).setOnComplete((() =>Joystick.Instance.Teleporting = false));
-        playerPrefab.transform.DOScale(new Vector3(0.0001f,0.0001f,1f), 0.3f).OnComplete((() =>
-        {       
+        LeanTween.scale(playerPrefab, Vector3.zero, 0.3f).setOnComplete((() =>
+        {
+            GameObject newPortalFx = ObjectPool.Instance.GetObjet(portalFx[0]);
+            player.transform.position = playerStartPoints[currentLevel].position;
+            newPortalFx.transform.position = player.transform.position + new Vector3(0, 1, 0);
+            newPortalFx.transform.DOScale(new Vector3(1, 1, 1), 0.3f).SetEase(Ease.OutBack);
+            newPortalFx.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutBack).SetDelay(1.5f)
+                .OnComplete((() => ObjectPool.Instance.ReturnObject(newPortalFx, 0)));
+        }));
+        LeanTween.scale(playerPrefab, new Vector3(1, 1, 1), 0.3f).setDelay(0.5f)
+            .setOnComplete((() => Joystick.Instance.Teleporting = false));
+        /*playerPrefab.transform.DOScale(new Vector3(0.0001f,0.0001f,1f), 0.3f).OnComplete((() =>
+        {
             GameObject newPortalFx = ObjectPool.Instance.GetObjet(portalFx[0]);
             player.transform.position = playerStartPoints[currentLevel].position;
             newPortalFx.transform.position = player.transform.position + new Vector3(0,1,0);
             newPortalFx.transform.DOScale(new Vector3(1, 1, 1), 0.3f).SetEase(Ease.OutBack);
             newPortalFx.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutBack).SetDelay(1.5f).OnComplete((() => ObjectPool.Instance.ReturnObject(newPortalFx,0) ));
 
-        }));
+        }));*/
         playerPrefab.transform.DORotate(new Vector3(360, 360, 360), 0.8f, RotateMode.FastBeyond360);
-        playerPrefab.transform.DOLocalMoveY(3, 0.5f).OnComplete( (() => player.transform.GetChild(0).DOLocalMoveY(0, 0.3f)));
-        playerPrefab.transform.DOScale(new Vector3(1,1,1), 0.3f).SetEase(Ease.InBack).SetDelay(0.6f).OnComplete( (() => Joystick.Instance.Teleporting = false));
+        playerPrefab.transform.DOLocalMoveY(3, 0.5f)
+            .OnComplete((() => player.transform.GetChild(0).DOLocalMoveY(0, 0.3f)));
+        //  playerPrefab.transform.DOScale(new Vector3(1,1,1), 0.3f).SetEase(Ease.InBack).SetDelay(0.8f).OnComplete( (() => Joystick.Instance.Teleporting = false));
         currentScenario++;
         SetPortalsAsChildOfCurrentFloor(currentScenario);
     }
-    
+
     private void SpawnEnemies()
     {
         if (currentLevel >= enemiesSetupList.Count)
             currentLevel = Random.Range(0, enemiesSetupList.Count - 1);
-        
-        if (currentLevel == 0)
-            enemiesOnLevel =  SpawnEnemiesFromList(enemiesSetupList[currentLevel].enemies,currentLevel,currentScenario);
-        if (currentLevel + 1 < enemiesSetupList.Count)
-            enemiesOnNextLevel = SpawnEnemiesFromList(enemiesSetupList[currentLevel + 1].enemies, currentLevel + 1,currentScenario+1); 
 
+        if (currentLevel == 0)
+            enemiesOnLevel =
+                SpawnEnemiesFromList(enemiesSetupList[currentLevel].enemies, currentLevel, currentScenario);
+        if (currentLevel + 1 < enemiesSetupList.Count)
+            enemiesOnNextLevel = SpawnEnemiesFromList(enemiesSetupList[currentLevel + 1].enemies, currentLevel + 1,
+                currentScenario + 1);
     }
 
     private List<GameObject> SpawnEnemiesFromList(List<Enemy> listOfEnemies, int levelIndex, int scenarioIndex)

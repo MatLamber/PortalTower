@@ -31,8 +31,8 @@ public class EnemyController : MonoBehaviour
     private bool follow;
     private float hitPoints;
     private float originalSpeed;
-    private float flyAwayForce = 800;
-    private float extraForce = 200;
+    private float flyAwayForce = 450;
+    private float extraForce = 500;
 
     private List<Material> materials = new List<Material>();
     private List<Material> originalMaterials = new List<Material>();

@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69235dfc1457cc847b3a3f2288e588c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletImpactFX: {fileID: 2944396702758532163, guid: b63df7d7254d3f34fa7f30c7f758b60b, type: 3}
+  bulletImpactFX: {fileID: 160696, guid: fd00b8984dfbe36489cb7191f5338cbf, type: 3}
 --- !u!54 &-1847012400492216484
 Rigidbody:
   m_ObjectHideFlags: 0
