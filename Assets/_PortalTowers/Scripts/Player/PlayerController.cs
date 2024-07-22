@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
 
     private float hitPoints = 10f;
     private float totalHitPoints = 10f;
+
+    private float protection = 1;
+    private float speedMultiplier = 1;
     
 
     private void Awake()
@@ -37,10 +40,12 @@ public class PlayerController : MonoBehaviour
     {
         EventsManager.Instance.eventJoyStrickMove += Move;
         EventsManager.Instance.eventPlayerHit += OnHit;
+        EventsManager.Instance.eventSelectedOption += OnSelectedOption;
     }
 
     private void OnDestroy()
     {
+        EventsManager.Instance.eventSelectedOption -= OnSelectedOption;
         EventsManager.Instance.eventJoyStrickMove -= Move;
         EventsManager.Instance.eventPlayerHit -= OnHit;
     }
@@ -49,7 +54,7 @@ public class PlayerController : MonoBehaviour
     {
         if (wasHit)
         {
-            hitPoints--;
+            hitPoints -= (1 * protection);
             healthUI.SetActive(true);
             healthFill.fillAmount = hitPoints / totalHitPoints;
             ShowDamageText(1);
@@ -61,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move(Vector3 moveVector)
     {
-        Vector3 movementVector = moveVector * (moveSpeed * Time.deltaTime) / Screen.width;
+        Vector3 movementVector = moveVector * (moveSpeed * speedMultiplier * Time.deltaTime) / Screen.width;
         movementVector.z = movementVector.y;
         movementVector.y = 0;
         characterController.Move(movementVector);
@@ -85,4 +90,13 @@ public class PlayerController : MonoBehaviour
         newDamageText.transform.DOLocalMoveY(1200, 0.3f).SetEase(Ease.OutSine);
         ObjectPool.Instance.ReturnObject(newDamageText,0.4f);
     }
+    
+    private void OnSelectedOption(string upgradeName)
+    {
+        if (upgradeName.Equals(OptionType.Speed.ToString()))
+            speedMultiplier += 0.10f;
+        if (upgradeName.Equals(OptionType.BulletProof.ToString()))
+            protection -= 0.10f;
+    }
+    
 }

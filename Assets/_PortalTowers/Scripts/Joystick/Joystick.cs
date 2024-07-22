@@ -15,7 +15,7 @@ public class Joystick : MonoBehaviour
     private bool canControl;
     private Vector3 clickedPostion;
     private bool teleporting;
-
+    
     public bool Teleporting
     {
         get => teleporting;

@@ -11,17 +11,10 @@ public class PortalControllers : MonoBehaviour
     private bool canBeCrossed;
     private GameObject newObject;
     [SerializeField] private List<GameObject> optionPrefab;
-    [SerializeField] private List<string> options;
+    [SerializeField] private List<OptionType> options;
     [SerializeField] private ParticleSystem crossingEffect;
     [SerializeField] private Transform optionContainer;
     
-    private string starterPitolName = "StarterPistol";
-    private string pistolName = "Pistol";
-    private string rifleName = "Rifle";
-    private string rocketLauncherlName = "RocketLauncher";
-    private string shotgunName = "Shorty";
-
-
     private int currentSelection;
 
     private void Start()
@@ -68,7 +61,7 @@ public class PortalControllers : MonoBehaviour
         {
             crossingEffect.Play();
             doorCrossed = true;
-            EventsManager.Instance.OnSelectedOption(options[currentSelection]);
+            EventsManager.Instance.OnSelectedOption(options[currentSelection].ToString());
             currentSelection++;
             EventsManager.Instance.OnTeleportPlayer();
 

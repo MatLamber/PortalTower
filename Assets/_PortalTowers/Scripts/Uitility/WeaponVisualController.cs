@@ -21,23 +21,17 @@ public class WeaponVisualController : MonoBehaviour
     [SerializeField] private Transform leftHandTarget;
     [SerializeField] private List<Vector3> leftHandIkPositions;
     [SerializeField] private List<Vector3> leftHandIkRotaions;
-
-
-    private string starterPitolName = "StarterPistol";
-    private string pistolName = "Pistol";
-    private string rifleName = "Rifle";
-    private string rocketLauncherlName = "RocketLauncher";
-    private string shotgunName = "Shorty";
+    
 
     private bool onTarget;
 
     private void Awake()
     {
-        starterPistol.name = starterPitolName;
-        pistol.name = pistolName;
-        rifle.name = rifleName;
-        bazooka.name = rocketLauncherlName;
-        shotgun.name = shotgunName;
+        starterPistol.name = OptionType.StarterPistol.ToString();
+        pistol.name = OptionType.Pistol.ToString();
+        rifle.name = OptionType.Rifle.ToString();
+        bazooka.name = OptionType.RocketLauncher.ToString();
+        shotgun.name = OptionType.Shorty.ToString();
     }
 
     private void Start()
@@ -88,23 +82,23 @@ public class WeaponVisualController : MonoBehaviour
 
     private void OnSelectedOption(string optionName)
     {
-        if (optionName.Equals(pistolName))
+        if (optionName.Equals(OptionType.Pistol.ToString()))
         {
             SwitchOnGuns(pistol);
         }
-        else if (optionName.Equals(rifleName))
+        else if (optionName.Equals(OptionType.Rifle.ToString()))
         {
             SwitchOnGuns(rifle);
         }
-        else if (optionName.Equals(rocketLauncherlName))
+        else if (optionName.Equals(OptionType.RocketLauncher.ToString()))
         {
             SwitchOnGuns(bazooka);
         }
-        else if (optionName.Equals(starterPitolName))
+        else if (optionName.Equals(OptionType.StarterPistol.ToString()))
         {
             SwitchOnGuns(starterPistol);
         }
-        else if (optionName.Equals(shotgunName))
+        else if (optionName.Equals(OptionType.Shorty.ToString()))
         {
             SwitchOnGuns(shotgun);
         }
@@ -129,25 +123,25 @@ public class WeaponVisualController : MonoBehaviour
                 gunAim.weight = 1;
             }
 
-            if (gunTransform.name.Equals(pistolName))
+            if (gunTransform.name.Equals(OptionType.Pistol.ToString()))
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[0];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[0]);
                 EventsManager.Instance.OnSwitchedWeapon(1,gunTransform);
             }
-            else if (gunTransform.name.Equals(rifleName))
+            else if (gunTransform.name.Equals(OptionType.Rifle.ToString()))
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[1];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[1]);
                 EventsManager.Instance.OnSwitchedWeapon(3,gunTransform);
             }
-            else if (gunTransform.name.Equals(rocketLauncherlName))
+            else if (gunTransform.name.Equals(OptionType.RocketLauncher.ToString()))
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[2];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[2]);
                 EventsManager.Instance.OnSwitchedWeapon(5,gunTransform);
             }
-            else if (gunTransform.name.Equals(starterPitolName))
+            else if (gunTransform.name.Equals(OptionType.StarterPistol.ToString()))
             {
                 leftHandTarget.transform.localPosition = leftHandIkPositions[0];
                 leftHandTarget.transform.localRotation = Quaternion.Euler(leftHandIkRotaions[0]);
