@@ -81,21 +81,11 @@ public class GameManager : MonoBehaviour
         }));
         LeanTween.scale(playerPrefab, new Vector3(1, 1, 1), 0.3f).setDelay(0.5f)
             .setOnComplete((() => Joystick.Instance.Teleporting = false));
-        /*playerPrefab.transform.DOScale(new Vector3(0.0001f,0.0001f,1f), 0.3f).OnComplete((() =>
-        {
-            GameObject newPortalFx = ObjectPool.Instance.GetObjet(portalFx[0]);
-            player.transform.position = playerStartPoints[currentLevel].position;
-            newPortalFx.transform.position = player.transform.position + new Vector3(0,1,0);
-            newPortalFx.transform.DOScale(new Vector3(1, 1, 1), 0.3f).SetEase(Ease.OutBack);
-            newPortalFx.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.OutBack).SetDelay(1.5f).OnComplete((() => ObjectPool.Instance.ReturnObject(newPortalFx,0) ));
-
-        }));*/
         playerPrefab.transform.DORotate(new Vector3(360, 360, 360), 0.8f, RotateMode.FastBeyond360);
         playerPrefab.transform.DOLocalMoveY(3, 0.5f)
             .OnComplete((() => player.transform.GetChild(0).DOLocalMoveY(0, 0.3f)));
-        //  playerPrefab.transform.DOScale(new Vector3(1,1,1), 0.3f).SetEase(Ease.InBack).SetDelay(0.8f).OnComplete( (() => Joystick.Instance.Teleporting = false));
         currentScenario++;
-        SetPortalsAsChildOfCurrentFloor(currentScenario);
+       SetPortalsAsChildOfCurrentFloor(currentScenario);
     }
 
     private void SpawnEnemies()
@@ -117,8 +107,7 @@ public class GameManager : MonoBehaviour
         foreach (Enemy enemy in listOfEnemies)
         {
             GameObject newEnemy = Instantiate(enemy.prefab, enemyStartPoints[levelIndex].transform.position,
-                quaternion.LookRotation(-player.transform.forward, player.transform.up),
-                floors[scenarioIndex].transform);
+                quaternion.LookRotation(-player.transform.forward, player.transform.up));
             newEnemy.GetComponent<EnemyController>().Target = player.transform;
             resultingEnemyList.Add(newEnemy);
         }

@@ -52,6 +52,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTargetLock(bool status, Transform targeTransform = null)
     {
-        moveSpeed = status ? 20 : 30;
+        moveSpeed = status ? 25 : 30;
     }
 }
