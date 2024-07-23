@@ -61,9 +61,7 @@ public class PlayerAnimator : MonoBehaviour
             {
                 target.transform.position = targetFolow.transform.position + new Vector3(0,0.8f,0);
             }
-            
         }
-
     }   
 
 

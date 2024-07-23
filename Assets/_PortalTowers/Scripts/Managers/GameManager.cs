@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     {
         Joystick.Instance.Teleporting = true;
         Joystick.Instance.HideJoystick();
-        LeanTween.scale(playerPrefab, Vector3.zero, 0.3f).setOnComplete((() =>
+        LeanTween.scale(playerPrefab, new Vector3(0.0001f,0.0001f), 0.3f).setOnComplete((() =>
         {
             GameObject newPortalFx = ObjectPool.Instance.GetObjet(portalFx[0]);
             player.transform.position = playerStartPoints[currentLevel].position;

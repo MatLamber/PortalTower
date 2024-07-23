@@ -13,6 +13,7 @@ public class Weapons : ScriptableObject
     public float stoppingPower = 0.8f;
     public float power = 1;
     private bool fastFirstShoot;
+    public GameObject muzzlePrefab;
 
 
     public Vector3 ApplySpread(Vector3 orginalDirection)

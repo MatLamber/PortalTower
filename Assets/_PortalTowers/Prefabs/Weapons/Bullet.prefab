@@ -127,7 +127,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!96 &5504734235712655730
 TrailRenderer:
@@ -180,7 +180,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0.014968872
-        value: 0.04081726
+        value: 0.089767456
         inSlope: 0
         outSlope: 0
         tangentMode: 0

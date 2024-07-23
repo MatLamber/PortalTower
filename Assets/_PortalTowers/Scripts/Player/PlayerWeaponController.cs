@@ -9,6 +9,7 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private List<Weapons> weaponsData;
     [SerializeField] private List<Transform> gunPoints;
+    private GameObject muzzleFlash;
     private Weapons currentWeaponData;
     private PlayerAnimator animator;
     private Transform gunPoint;
@@ -48,6 +49,10 @@ public class PlayerWeaponController : MonoBehaviour
     {
         for (int i = 0; i < currentWeaponData.bulletsPerShot; i++)
         {
+            GameObject newMuzzleFlash = ObjectPool.Instance.GetObjet(currentWeaponData.muzzlePrefab);
+            newMuzzleFlash.transform.position = gunPoint.transform.position;
+            newMuzzleFlash.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
+            ObjectPool.Instance.ReturnObject(newMuzzleFlash,0.8f);
             GameObject newBullet = ObjectPool.Instance.GetObjet(currentWeaponData.bulletPrefab);
             newBullet.transform.position = gunPoint.position;
             newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);

@@ -11484,7 +11484,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765688294}
-  m_LocalRotation: {x: 0.38878933, y: -0.004321192, z: 0.0018235174, w: 0.9213148}
+  m_LocalRotation: {x: 0.38878933, y: -0.0043212106, z: 0.0018235253, w: 0.9213148}
   m_LocalPosition: {x: 2.58, y: 11.9299345, z: -8.249999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -23029,7 +23029,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828881417}
-  m_LocalRotation: {x: 0.38878933, y: -0.004321192, z: 0.0018235174, w: 0.9213148}
+  m_LocalRotation: {x: 0.38878933, y: -0.0043212106, z: 0.0018235253, w: 0.9213148}
   m_LocalPosition: {x: 2.58, y: 11.9299345, z: -8.249999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -29353,6 +29353,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8558017556487185324, guid: 6379f77ad1117644492ccb9adbf58bb8, type: 3}
+      propertyPath: muzzleFlash
+      value: 
+      objectReference: {fileID: 1559235166260600, guid: 836dab465791747dcaee617a2265d2df, type: 3}
+    - target: {fileID: 8558017556487185324, guid: 6379f77ad1117644492ccb9adbf58bb8, type: 3}
       propertyPath: gunPoints.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -29450,7 +29454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8558017556487185331, guid: 6379f77ad1117644492ccb9adbf58bb8, type: 3}
       propertyPath: moveSpeed
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8558017556487185331, guid: 6379f77ad1117644492ccb9adbf58bb8, type: 3}
       propertyPath: healthFill
