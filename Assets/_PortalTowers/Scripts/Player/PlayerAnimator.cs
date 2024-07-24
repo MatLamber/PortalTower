@@ -53,14 +53,12 @@ public class PlayerAnimator : MonoBehaviour
         EventsManager.Instance.eventPlayerShoot -= ShootAnimation;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (onTarget)
+        if (!onTarget) return;
+        if (targetFolow is not null)
         {
-            if (targetFolow is not null)
-            {
-                target.transform.position = targetFolow.transform.position + new Vector3(0,0.8f,0);
-            }
+            target.transform.position = targetFolow.transform.position + new Vector3(0,0.8f,0);
         }
     }   
 
@@ -188,39 +186,46 @@ public class PlayerAnimator : MonoBehaviour
 
         if (!onTarget)
         {
-            if (newTarget != null)
-            {
-                onTarget = true;
-                targetFolow = newTarget;
-                SetLayerWeight(currentWeaponLayer);
-                EventsManager.Instance.OnEnemyLockedIn(onTarget, newTarget );
-            }
+            if (newTarget == null) return;
+            onTarget = true;
+            targetFolow = newTarget;
+            SetLayerWeight(currentWeaponLayer);
+            EventsManager.Instance.OnEnemyLockedIn(onTarget, newTarget );
         }
         else
         {
-            if (Vector3.Distance(transform.position, newTarget.position) <
-                Vector3.Distance(transform.position, target.position))
-            {
-                onTarget = true;
-                targetFolow = newTarget;
-                EventsManager.Instance.OnEnemyLockedIn(onTarget, newTarget );
-            }
+            if (!(Vector3.Distance(transform.position, newTarget.position) <
+                  Vector3.Distance(transform.position, target.position))) return;
+            onTarget = true;
+            targetFolow = newTarget;
+            EventsManager.Instance.OnEnemyLockedIn(onTarget, newTarget );
         }
 
     }
 
     private void FreeTargetLocking(Transform enemyTransfrom = null)
     {
-        if (enemyTransfrom is not null)
+       StartCoroutine(FreeTargetLockigDelay(enemyTransfrom));
+    }
+
+    IEnumerator FreeTargetLockigDelay(Transform enemyTransfrom)
+    {
+        yield return new WaitForSeconds(0.4f);
+        if (onTarget)
         {
-            if (targetFolow.Equals(enemyTransfrom))
+            if (enemyTransfrom is not null)
             {
-                animator.SetFloat(moveSpeedParamter,0);
-                onTarget = false;
-                targetFolow = null;
-                TurnOffAllAnimationLayers();
+                if (targetFolow.Equals(enemyTransfrom))
+                {
+                    animator.SetFloat(moveSpeedParamter,0);
+                    onTarget = false;
+                    targetFolow = null;
+                    TurnOffAllAnimationLayers();
+                }
             }
+
+            EventsManager.Instance.OnEnemyLockedIn(onTarget,enemyTransfrom);
         }
-        EventsManager.Instance.OnEnemyLockedIn(onTarget,enemyTransfrom);
+
     }
 }

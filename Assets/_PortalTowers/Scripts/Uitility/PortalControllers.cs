@@ -55,7 +55,7 @@ public class PortalControllers : MonoBehaviour
         newObject =  ObjectPool.Instance.GetObjet(optionPrefab[currentSelection]);
         newObject.transform.SetParent(optionContainer.transform);
         newObject.transform.localPosition = Vector3.zero;
-        newObject.transform.localScale = new Vector3(1, 1, 1);
+        newObject.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
         transform.DOLocalMoveY(1.4f,0.3f).SetEase(Ease.OutBack).SetDelay(0.3f).OnComplete(() =>
         {
             canBeCrossed = true;
