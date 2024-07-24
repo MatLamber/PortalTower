@@ -26,7 +26,7 @@ public class EventsManager : MonoBehaviour
     public Action<bool, Transform> eventEnemyLockedIn;
     public Action<Transform, float> eventEnemyHit;
     public Action <Transform> eventEnemyDeath;
-    public Action eventLevelFinish;
+    public Action <bool> eventLevelFinish;
     public Action <int> eventTeleportPlayer;
     public Action <bool> eventPlayerHit;
     public Action<string> eventSelectedOption;
@@ -36,7 +36,7 @@ public class EventsManager : MonoBehaviour
     public void OnEnemyLockedIn(bool state, Transform enemyLocked) => eventEnemyLockedIn?.Invoke(state,enemyLocked);
     public void OnEnemyHit(Transform enemyTransfrom, float power) => eventEnemyHit?.Invoke(enemyTransfrom, power);
     public void OnEnemyDeath(Transform enemyTransfrom) => eventEnemyDeath?.Invoke(enemyTransfrom);
-    public void OnLevelFinish() => eventLevelFinish?.Invoke();
+    public void OnLevelFinish(bool onLastLevel) => eventLevelFinish?.Invoke(onLastLevel);
     public void OnTeleportPlayer(int id) => eventTeleportPlayer?.Invoke(id);
     public void OnPlayerHit(bool wasHit) => eventPlayerHit?.Invoke(wasHit);
     public void OnSelectedOption(string optionName) => eventSelectedOption?.Invoke(optionName);

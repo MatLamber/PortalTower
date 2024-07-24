@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b206f05c7c9bdf449a2e8fc397b9359, type: 3}
   m_Name: RocketLauncher
   m_EditorClassIdentifier: 
-  fireRate: 0.5
-  lastShootTime: 68.48541
+  fireRate: 2
+  lastShootTime: 32.21066
   bulletsPerShot: 1
   spreadAmout: 1
   bulletPrefab: {fileID: 1554052670201816, guid: 9024c832efd2f694186fff1d1dca0573, type: 3}
-  bulletSpeed: 5
+  bulletSpeed: 10
   stoppingPower: 0.8
   power: 5
+  muzzlePrefab: {fileID: 1559235166260600, guid: 836dab465791747dcaee617a2265d2df, type: 3}

@@ -9,6 +9,8 @@ public class CameraManager : MonoBehaviour
 {
    [SerializeField] private CinemachineVirtualCamera playerCamera;
    [SerializeField] private CinemachineVirtualCamera generalCamera;
+   [SerializeField] private CinemachineVirtualCamera finalBossCamera;
+   private bool onFinalBoss;
     
     private void Start()
     {
@@ -27,8 +29,9 @@ public class CameraManager : MonoBehaviour
     }
 
 
-    private void EnableGeneralCamera()
+    private void EnableGeneralCamera(bool lastFloor)
     {
+        onFinalBoss = lastFloor;
         StartCoroutine(GeneralCameraDelay());
     }
 
@@ -41,7 +44,7 @@ public class CameraManager : MonoBehaviour
 
     private void EnablePlayerCamera(int id)
     {
-        StartCoroutine(PlayerCameraDelay());
+        StartCoroutine(onFinalBoss ? FinalBossCameraDelay() : PlayerCameraDelay());
     }
  
     IEnumerator PlayerCameraDelay()
@@ -52,6 +55,16 @@ public class CameraManager : MonoBehaviour
         playerCamera.Priority = 1;
         generalCamera.Priority = 0;
     }
+    
+    IEnumerator FinalBossCameraDelay()
+    {
+        yield return new WaitForSeconds(1.2f);
+        finalBossCamera.Priority = 1;
+        playerCamera.Priority = 0;
+        generalCamera.Priority = 0;
+    }
+    
+    
     
     
     private void MoveGeneralCameraUp(int obj)

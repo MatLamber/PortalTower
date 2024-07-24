@@ -49,7 +49,7 @@ public class PortalControllers : MonoBehaviour
 
     }
 
-    private void ShowDoor()
+    private void ShowDoor(bool lastDoor)
     {
         GetComponent<Collider>().enabled = true;
         newObject =  ObjectPool.Instance.GetObjet(optionPrefab[currentSelection]);

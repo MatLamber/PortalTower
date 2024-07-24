@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     IEnumerator LevelFinishDelay()
     {
         yield return new WaitForSeconds(0.2f);
-        EventsManager.Instance.OnLevelFinish();
+        EventsManager.Instance.OnLevelFinish(currentLevel >= enemiesSetupList.Count);
         SpawnEnemies();
     }
 
@@ -97,9 +97,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        if (currentLevel >= enemiesSetupList.Count)
-            currentLevel = Random.Range(0, enemiesSetupList.Count - 1);
-
+        if (currentLevel >= enemiesSetupList.Count) return;
         if (currentLevel == 0)
             enemiesOnLevel =
                 SpawnEnemiesFromList(enemiesSetupList[currentLevel].enemies, currentLevel, currentScenario);
