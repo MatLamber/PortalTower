@@ -14,6 +14,7 @@ public class PortalControllers : MonoBehaviour
     [SerializeField] private List<OptionType> options;
     [SerializeField] private ParticleSystem crossingEffect;
     [SerializeField] private Transform optionContainer;
+    [SerializeField] private int id;
     
     private int currentSelection;
 
@@ -32,12 +33,14 @@ public class PortalControllers : MonoBehaviour
     }
 
 
-    private void HideDoor()
+    private void HideDoor(int id = 0)
     {
+        GetComponent<Collider>().enabled = false;
         canBeCrossed = false;
         doorCrossed = false;
         ObjectPool.Instance.ReturnObject(newObject,0);
-        transform.DOScale(Vector3.zero,0.3f).SetDelay(0.3f);
+        optionContainer.gameObject.SetActive(false);
+        transform.DOLocalMoveY(-0.44f,0.3f).SetDelay(0.3f);
         optionContainer.transform.DOKill();
         optionContainer.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
@@ -45,22 +48,25 @@ public class PortalControllers : MonoBehaviour
     }
 
     private void ShowDoor()
-    { 
+    {
+        GetComponent<Collider>().enabled = true;
         newObject =  ObjectPool.Instance.GetObjet(optionPrefab[currentSelection]);
         newObject.transform.SetParent(optionContainer.transform);
         newObject.transform.localPosition = Vector3.zero;
         newObject.transform.localScale = new Vector3(1, 1, 1);
-        transform.DOScale(new Vector3(1,1,1),0.3f).SetEase(Ease.OutBack).SetDelay(0.3f).OnComplete(() =>
+        transform.DOLocalMoveY(1.4f,0.3f).SetEase(Ease.OutBack).SetDelay(0.3f).OnComplete(() =>
         {
             canBeCrossed = true;
         });
-        Debug.Log($"{options[currentSelection].ToString()} \n {OptionType.Rifle.ToString()}");
+        optionContainer.gameObject.SetActive(true);
+        
         if (options[currentSelection].ToString().Equals(OptionType.Pistol.ToString()) ||
             options[currentSelection].ToString().Equals(OptionType.Rifle.ToString()) ||
             options[currentSelection].ToString().Equals(OptionType.RocketLauncher.ToString()) ||
             options[currentSelection].ToString().Equals(OptionType.Shorty.ToString()))
         {
-            optionContainer.transform.DORotate(new Vector3(0, 360, 0), 2, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
+           // optionContainer.transform.DORotate(new Vector3(0, 360, 0), 2, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
+           LeanTween.rotateAround(optionContainer.gameObject, optionContainer.transform.forward, 360f, 2f).setLoopClamp();
         }
         else
         {
@@ -79,7 +85,7 @@ public class PortalControllers : MonoBehaviour
             doorCrossed = true;
             EventsManager.Instance.OnSelectedOption(options[currentSelection].ToString());
             currentSelection++;
-            EventsManager.Instance.OnTeleportPlayer();
+            EventsManager.Instance.OnTeleportPlayer(id);
 
         }
     

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DynamicVerticalFogMaterial
+  m_Name: DynamicVerticalFogMaterial 1
   m_Shader: {fileID: -6465566751694194690, guid: 8936be0d03302704c9f3680a179e8f00, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
@@ -54,9 +54,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - FogDensity: 0.252
-    - FogNoise: 0
-    - FogSpeed: 0
+    - FogDensity: 0.021
+    - FogNoise: 14.54
+    - FogSpeed: 2.47
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 10

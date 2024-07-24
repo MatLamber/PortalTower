@@ -261,7 +261,7 @@ public class EnemyController : MonoBehaviour
     private void ShowDamageText(float damage)
     {
         GameObject newDamageText =  ObjectPool.Instance.GetObjet(damageText);
-        newDamageText.transform.parent = healthUI.transform;
+        newDamageText.transform.SetParent(healthUI.transform);
         newDamageText.GetComponent<TextMeshProUGUI>().text = (-damage).ToString();
         newDamageText.transform.localPosition = new Vector3(0,500,0);
         newDamageText.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);

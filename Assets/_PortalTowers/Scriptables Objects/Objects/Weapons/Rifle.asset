@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b206f05c7c9bdf449a2e8fc397b9359, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
-  fireRate: 10
-  lastShootTime: 17.824238
+  fireRate: 8
+  lastShootTime: 13.355532
   bulletsPerShot: 1
   spreadAmout: 0.1
   bulletPrefab: {fileID: 3466685549952159586, guid: 26c993b7c81224044a0e1652f037aa77, type: 3}

@@ -21,6 +21,7 @@ public class BulletController : MonoBehaviour
         ObjectPool.Instance.ReturnObject(gameObject,0);
         if (other.collider.tag.Equals(enemyTag))
             EventsManager.Instance.OnEnemyHit(other.transform, power);
+        Debug.Log($"{other.transform.name}");
         
     }
 

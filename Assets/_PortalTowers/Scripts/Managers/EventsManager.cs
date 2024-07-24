@@ -27,7 +27,7 @@ public class EventsManager : MonoBehaviour
     public Action<Transform, float> eventEnemyHit;
     public Action <Transform> eventEnemyDeath;
     public Action eventLevelFinish;
-    public Action eventTeleportPlayer;
+    public Action <int> eventTeleportPlayer;
     public Action <bool> eventPlayerHit;
     public Action<string> eventSelectedOption;
     public void OnJoystickMove(Vector3 moveVector) => eventJoyStrickMove?.Invoke(moveVector);
@@ -37,7 +37,7 @@ public class EventsManager : MonoBehaviour
     public void OnEnemyHit(Transform enemyTransfrom, float power) => eventEnemyHit?.Invoke(enemyTransfrom, power);
     public void OnEnemyDeath(Transform enemyTransfrom) => eventEnemyDeath?.Invoke(enemyTransfrom);
     public void OnLevelFinish() => eventLevelFinish?.Invoke();
-    public void OnTeleportPlayer() => eventTeleportPlayer?.Invoke();
+    public void OnTeleportPlayer(int id) => eventTeleportPlayer?.Invoke(id);
     public void OnPlayerHit(bool wasHit) => eventPlayerHit?.Invoke(wasHit);
     public void OnSelectedOption(string optionName) => eventSelectedOption?.Invoke(optionName);
 

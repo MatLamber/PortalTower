@@ -25,11 +25,6 @@ public class Weapons : ScriptableObject
 
     public bool CanShoot()
     {
-        if (fastFirstShoot)
-        {
-            fastFirstShoot = false; 
-            return true;
-        }
 
         if (!(Time.time > lastShootTime + 1 / fireRate)) return false;
         lastShootTime = Time.time;

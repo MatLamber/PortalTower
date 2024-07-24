@@ -17,6 +17,8 @@ public class CameraManager : MonoBehaviour
         EventsManager.Instance.eventTeleportPlayer += MoveGeneralCameraUp;
     }
 
+
+
     private void OnDestroy()
     {
         EventsManager.Instance.eventLevelFinish -= EnableGeneralCamera;
@@ -37,7 +39,7 @@ public class CameraManager : MonoBehaviour
         generalCamera.Priority = 1;
     }
 
-    private void EnablePlayerCamera()
+    private void EnablePlayerCamera(int id)
     {
         StartCoroutine(PlayerCameraDelay());
     }
@@ -46,16 +48,16 @@ public class CameraManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.2f);
         CinemachineTransposer transposer = playerCamera.GetCinemachineComponent<CinemachineTransposer>();
-        transposer.m_FollowOffset.z += 2.3f;
+        transposer.m_FollowOffset.z += 5.6f;
         playerCamera.Priority = 1;
         generalCamera.Priority = 0;
     }
-
-    private void MoveGeneralCameraUp()
+    
+    
+    private void MoveGeneralCameraUp(int obj)
     {
         generalCamera.transform.DOMoveY(generalCamera.transform.position.y + 8, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
-        generalCamera.transform.DOMoveZ(generalCamera.transform.position.z + 2.3f, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
-        
+        generalCamera.transform.DOMoveZ(generalCamera.transform.position.z + 5.6f, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
     }
 
 

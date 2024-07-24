@@ -49,7 +49,7 @@ public class ObjectPool : MonoBehaviour
     {
         objectToReturn.SetActive(false);
         GameObject originalPrefab = objectToReturn.GetComponent<PoolObjectIdentifier>().originalPrefab;
-        objectToReturn.transform.parent = transform;
+        objectToReturn.transform.SetParent(transform);
         objectToReturn.transform.localPosition = Vector3.zero;
         poolDictonary[originalPrefab].Enqueue(objectToReturn);
     }
