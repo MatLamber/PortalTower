@@ -11974,14 +11974,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721244899}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.03999996, y: 0.110000014, z: -3.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.6573374, y: -0.18251063, z: -0.16862883, w: 0.7114505}
+  m_LocalPosition: {x: 0.3557567, y: -0.44, z: 4.7874403}
+  m_LocalScale: {x: 0.12002216, y: 0.27167863, z: 0.18400246}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3200241345549704114}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -85.472, y: 0, z: 0}
 --- !u!1 &721819696
 GameObject:
   m_ObjectHideFlags: 0
@@ -12453,7 +12453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742173785}
   m_LocalRotation: {x: -0.6573374, y: -0.18251063, z: -0.16862883, w: 0.7114505}
-  m_LocalPosition: {x: 0.3557567, y: -0.44, z: 4.7874403}
+  m_LocalPosition: {x: 2.6, y: -0.44, z: 6.02}
   m_LocalScale: {x: 0.12002216, y: 0.27167863, z: 0.18400246}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12551,7 +12551,7 @@ MonoBehaviour:
   options: 050000000500000007000000020000000000000000000000
   crossingEffect: {fileID: 479153783}
   optionContainer: {fileID: 1890078173}
-  id: 0
+  id: 1
 --- !u!65 &742173792
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12944,7 +12944,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765688294}
-  m_LocalRotation: {x: 0.4509328, y: -0.0055463277, z: 0.0028021508, w: 0.8925363}
+  m_LocalRotation: {x: 0.4509328, y: -0.0055463584, z: 0.0028021664, w: 0.8925363}
   m_LocalPosition: {x: 2.58, y: 11.9299345, z: -8.249999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21959,7 +21959,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1466487462}
   m_LocalRotation: {x: -0.6573374, y: -0.18251063, z: -0.16862883, w: 0.7114505}
-  m_LocalPosition: {x: 2.6, y: -0.44, z: 6.02}
+  m_LocalPosition: {x: 0.3557567, y: -0.44, z: 4.7874403}
   m_LocalScale: {x: 0.12002216, y: 0.27167863, z: 0.18400246}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22057,7 +22057,7 @@ MonoBehaviour:
   options: 020000000500000005000000070000000000000000000000
   crossingEffect: {fileID: 479153783}
   optionContainer: {fileID: 500734703}
-  id: 1
+  id: 0
 --- !u!65 &1466487469
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26655,7 +26655,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828881417}
-  m_LocalRotation: {x: 0.4509328, y: -0.0055463277, z: 0.0028021508, w: 0.8925363}
+  m_LocalRotation: {x: 0.4509328, y: -0.0055463584, z: 0.0028021664, w: 0.8925363}
   m_LocalPosition: {x: 2.58, y: 11.9299345, z: -8.249999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

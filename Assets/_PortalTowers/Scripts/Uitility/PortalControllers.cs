@@ -20,7 +20,7 @@ public class PortalControllers : MonoBehaviour
 
     private void Start()
     {
-
+        optionContainer.gameObject.SetActive(false);
         EventsManager.Instance.eventLevelFinish += ShowDoor;
         EventsManager.Instance.eventTeleportPlayer += HideDoor;
     }
@@ -42,6 +42,8 @@ public class PortalControllers : MonoBehaviour
         optionContainer.gameObject.SetActive(false);
         transform.DOLocalMoveY(-0.44f,0.3f).SetDelay(0.3f);
         optionContainer.transform.DOKill();
+        if(LeanTween.isTweening(optionContainer.gameObject))
+            LeanTween.cancel(optionContainer.gameObject);
         optionContainer.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
 
@@ -58,22 +60,25 @@ public class PortalControllers : MonoBehaviour
         {
             canBeCrossed = true;
         });
+      StartCoroutine(ShowOptionDelay());
+    }
+
+    IEnumerator ShowOptionDelay()
+    {
+        yield return new WaitForSeconds(0.4f);
         optionContainer.gameObject.SetActive(true);
-        
+
         if (options[currentSelection].ToString().Equals(OptionType.Pistol.ToString()) ||
             options[currentSelection].ToString().Equals(OptionType.Rifle.ToString()) ||
             options[currentSelection].ToString().Equals(OptionType.RocketLauncher.ToString()) ||
             options[currentSelection].ToString().Equals(OptionType.Shorty.ToString()))
         {
-           // optionContainer.transform.DORotate(new Vector3(0, 360, 0), 2, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
-           LeanTween.rotateAround(optionContainer.gameObject, optionContainer.transform.forward, 360f, 2f).setLoopClamp();
+            LeanTween.rotateAround(optionContainer.gameObject, optionContainer.transform.forward, 360f, 2f).setLoopClamp();
         }
         else
         {
             optionContainer.transform.DOLocalMoveY(optionContainer.transform.localPosition.y + 0.3f,1).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
         }
-
-
     }
 
     private void OnTriggerEnter(Collider other)
