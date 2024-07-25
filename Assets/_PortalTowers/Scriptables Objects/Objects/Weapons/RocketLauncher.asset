@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: RocketLauncher
   m_EditorClassIdentifier: 
   fireRate: 2
-  lastShootTime: 32.21066
+  lastShootTime: 17.848307
   bulletsPerShot: 1
   spreadAmout: 1
   bulletPrefab: {fileID: 1554052670201816, guid: 9024c832efd2f694186fff1d1dca0573, type: 3}
-  bulletSpeed: 10
+  bulletSpeed: 30
   stoppingPower: 0.8
   power: 5
   muzzlePrefab: {fileID: 1559235166260600, guid: 836dab465791747dcaee617a2265d2df, type: 3}

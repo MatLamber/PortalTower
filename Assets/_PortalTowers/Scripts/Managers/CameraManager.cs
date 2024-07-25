@@ -64,14 +64,13 @@ public class CameraManager : MonoBehaviour
         generalCamera.Priority = 0;
     }
     
-    
-    
-    
     private void MoveGeneralCameraUp(int obj)
     {
         generalCamera.transform.DOMoveY(generalCamera.transform.position.y + 8, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
         generalCamera.transform.DOMoveZ(generalCamera.transform.position.z + 5.6f, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
     }
+    
+    
 
 
     

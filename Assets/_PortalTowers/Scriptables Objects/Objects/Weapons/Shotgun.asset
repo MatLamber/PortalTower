@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   fireRate: 2
-  lastShootTime: 46.704746
-  bulletsPerShot: 5
-  spreadAmout: 20
+  lastShootTime: 131.16061
+  bulletsPerShot: 3
+  spreadAmout: 5
   bulletPrefab: {fileID: 3466685549952159586, guid: 26c993b7c81224044a0e1652f037aa77, type: 3}
   bulletSpeed: 20
   stoppingPower: 0.8

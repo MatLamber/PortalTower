@@ -60,8 +60,7 @@ public class EnemyController : MonoBehaviour
             originalMaterials.Add(bodyPart.material);
         }
         
-        outline.OutlineColor = Color.red;
-        DisableOutLine(false,transform);
+        outline.OutlineColor = Color.black;
     }
 
     private void Start()
@@ -290,15 +289,14 @@ public class EnemyController : MonoBehaviour
 
     public void EnableOutline(bool value,Transform enemyTransform)
     {
-        
-        if(enemyTransform is null || isDead) return;        
-        outline.OutlineWidth = transform == enemyTransform ? 2 : 0;
+        if(enemyTransform is null || isDead) return;
+            outline.OutlineColor = transform == enemyTransform ? Color.red : Color.black;
     }
 
     public void DisableOutLine(bool value,Transform enemyTransform)
     {
-        if(enemyTransform != null && transform == enemyTransform)
-            outline.OutlineWidth = 0;
+        if (enemyTransform != null && transform == enemyTransform)
+            outline.enabled = false;
     }
     
     

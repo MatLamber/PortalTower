@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b206f05c7c9bdf449a2e8fc397b9359, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
-  fireRate: 7
-  lastShootTime: 40.56752
+  fireRate: 5
+  lastShootTime: 61.241943
   bulletsPerShot: 1
   spreadAmout: 0.1
   bulletPrefab: {fileID: 3466685549952159586, guid: 26c993b7c81224044a0e1652f037aa77, type: 3}
-  bulletSpeed: 20
+  bulletSpeed: 30
   stoppingPower: 0.8
   power: 2
   muzzlePrefab: {fileID: 1559235166260600, guid: 836dab465791747dcaee617a2265d2df, type: 3}

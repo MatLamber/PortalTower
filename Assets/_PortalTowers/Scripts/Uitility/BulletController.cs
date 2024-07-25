@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
 
     [SerializeField] private GameObject bulletImpactFX;
     private Rigidbody rigidbody => GetComponent<Rigidbody>();
+    private TrailRenderer trail;
     private string enemyTag = "Enemy";
     private float power;
     public float Power
@@ -15,8 +16,16 @@ public class BulletController : MonoBehaviour
         get => power;
         set => power = value;
     }
+
+    private void Awake()
+    {
+        if (GetComponent<TrailRenderer>() != null)
+            trail = GetComponent<TrailRenderer>();
+    }
+
     private void OnCollisionEnter(Collision other)
     {
+        DisableTrail();
         CreateImpactFX(other);
         ObjectPool.Instance.ReturnObject(gameObject,0);
         if (other.collider.tag.Equals(enemyTag))
@@ -36,4 +45,17 @@ public class BulletController : MonoBehaviour
             
         }
     }
+
+    public void EnableTrail()
+    {
+        if(trail != null)
+            trail.enabled = true;
+    }
+
+    public void DisableTrail()
+    {
+        if(trail != null)
+            trail.enabled = false;
+    }
+    
 }

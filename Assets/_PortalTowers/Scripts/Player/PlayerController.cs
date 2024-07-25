@@ -54,4 +54,9 @@ public class PlayerController : MonoBehaviour
     {
         moveSpeed = status ? 25 : 30;
     }
+
+    public void LockOnFinalsBoss(Transform finalBossTransform)
+    {
+        animator.LockToTarget(finalBossTransform);
+    }
 }
