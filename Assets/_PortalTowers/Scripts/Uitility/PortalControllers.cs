@@ -35,14 +35,27 @@ public class PortalControllers : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            FlashMaterialsOnHit(50);
+            LeanTween.value(50, 0, 0.2f).setOnUpdate((f => FlashMaterialsOnHit(f))).setOnComplete(    () =>         FlashMaterialsOnHit(0));
+        }
+    }
+
     private void HideDoor(int id = 0)
     {
+
         GetComponent<Collider>().enabled = false;
         canBeCrossed = false;
         doorCrossed = false;
         ObjectPool.Instance.ReturnObject(newObject, 0);
         optionContainer.gameObject.SetActive(false);
-        transform.DOLocalMoveY(-0.44f, 0.3f).SetDelay(0.8f);
+        transform.DOLocalMoveY(-0.44f, 0.3f).SetDelay(0.3f).OnComplete(    () =>
+        {
+
+        });
         optionContainer.transform.DOKill();
         if (LeanTween.isTweening(optionContainer.gameObject))
             LeanTween.cancel(optionContainer.gameObject);
@@ -88,7 +101,8 @@ public class PortalControllers : MonoBehaviour
         if (!canBeCrossed) return;
         if (other.tag.Equals(playerTagName) && !doorCrossed)
         {
-            LeanTween.value(0.5f, 10f, 0.3f).setOnUpdate((f => FlashMaterialsOnHit(f))).setLoopPingPong(1);
+            FlashMaterialsOnHit(50);
+            LeanTween.value(50, 0, 0.35f).setOnUpdate((f => FlashMaterialsOnHit(f))).setOnComplete(    () =>         FlashMaterialsOnHit(0));
             crossingEffect.Play();
             doorCrossed = true;
             EventsManager.Instance.OnSelectedOption(options[currentSelection].ToString());
