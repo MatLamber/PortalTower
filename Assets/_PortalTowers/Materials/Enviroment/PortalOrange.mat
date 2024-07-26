@@ -34,8 +34,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Emint: 0
-    - _EmitPower: 0
+    - _Emint: 5.38
+    - _EmitPower: 0.025
     - _Power: 1.44
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -44,8 +44,8 @@ Material:
     - _VorAngle: 2.41
     - _VorCell: 3.5
     m_Colors:
-    - _Color: {r: 1, g: 0.079807825, b: 0, a: 0}
-    - _EmitColor: {r: 1, g: 0.40701026, b: 0, a: 0}
+    - _Color: {r: 1, g: 0.4292453, b: 0.44030985, a: 0}
+    - _EmitColor: {r: 1, g: 0.59607846, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6294537001014268863
 MonoBehaviour:
