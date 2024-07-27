@@ -940,7 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c069a31dd49874fa45bfcaefae8584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1452964142659950180}
+  animator: {fileID: 0}
 --- !u!65 &3344847211514953029
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1775,7 +1775,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4812619449387289630}
-  - component: {fileID: 1452964142659950180}
+  - component: {fileID: 6056121730867165961}
+  - component: {fileID: 3026330026617954132}
   m_Layer: 0
   m_Name: ZombieFat
   m_TagString: Untagged
@@ -1801,7 +1802,22 @@ Transform:
   m_Father: {fileID: 3344847211514953024}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1452964142659950180
+--- !u!111 &6056121730867165961
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296808518113679012}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 50861fdfa5b01476d865887b9d1b803c, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!95 &3026330026617954132
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -1810,11 +1826,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5296808518113679012}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b279ed5cbb2444f7ba6ffa5dd1c475e3, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2b609e9b4e08c994bb31be0ceba165c4, type: 2}
-  m_CullingMode: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 

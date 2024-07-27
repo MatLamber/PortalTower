@@ -10,6 +10,8 @@ public class CameraManager : MonoBehaviour
    [SerializeField] private CinemachineVirtualCamera playerCamera;
    [SerializeField] private CinemachineVirtualCamera generalCamera;
    [SerializeField] private CinemachineVirtualCamera finalBossCamera;
+   [SerializeField] private CinemachineVirtualCamera adCamera;
+   [SerializeField] private Vector3 finalAdCameraPosition;
    private bool onFinalBoss;
     
     private void Start()
@@ -26,6 +28,15 @@ public class CameraManager : MonoBehaviour
         EventsManager.Instance.eventLevelFinish -= EnableGeneralCamera;
         EventsManager.Instance.eventTeleportPlayer -= EnablePlayerCamera;
         EventsManager.Instance.eventTeleportPlayer -= MoveGeneralCameraUp;
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            MoveAdCameraDown();
+        }
     }
 
 
@@ -54,6 +65,7 @@ public class CameraManager : MonoBehaviour
         transposer.m_FollowOffset.z += 5.6f;
         playerCamera.Priority = 1;
         generalCamera.Priority = 0;
+        adCamera.Priority = 0;
     }
     
     IEnumerator FinalBossCameraDelay()
@@ -68,6 +80,16 @@ public class CameraManager : MonoBehaviour
     {
         generalCamera.transform.DOMoveY(generalCamera.transform.position.y + 8, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
         generalCamera.transform.DOMoveZ(generalCamera.transform.position.z + 5.6f, 2f).SetEase(Ease.OutBack).SetDelay(0.3f);
+    }
+
+    private void MoveAdCameraDown()
+    {
+        adCamera.transform.DOLocalMove(finalAdCameraPosition, 5).SetEase(Ease.Linear).OnComplete((() =>
+        {
+            playerCamera.Priority = 1;
+            generalCamera.Priority = 0;
+            adCamera.Priority = 0;
+        }));
     }
     
     

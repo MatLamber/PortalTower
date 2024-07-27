@@ -33,7 +33,24 @@ public class GameManager : MonoBehaviour
     {
         foreach (EnemySetup enemiesSetup in enemyProgression.enemiesSetup)
             enemiesSetupList.Add(enemiesSetup);
-        SpawnEnemies();
+        //SpawnEnemies();
+        for (int i = 0; i < enemiesSetupList.Count; i++)
+        {
+            if (i == 0)
+            {
+                enemiesOnLevel = SpawnEnemiesFromList(enemiesSetupList[i].enemies, i, i);
+            }
+            else if (i == 1)
+            {
+                enemiesOnNextLevel = SpawnEnemiesFromList(enemiesSetupList[i].enemies, i, i);
+            }
+            else
+            {
+                SpawnEnemiesFromList(enemiesSetupList[i].enemies, i, i);
+            }
+               
+ 
+        }
         EventsManager.Instance.eventEnemyDeath += RemoveEnemyFromLevel;
         EventsManager.Instance.eventTeleportPlayer += TeleportPlayer;
     }
@@ -65,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         EventsManager.Instance.OnLevelFinish(currentLevel >= enemiesSetupList.Count);
-        SpawnEnemies();
+       // SpawnEnemies();
     }
 
     private void TeleportPlayer(int id)

@@ -37,11 +37,7 @@ public class PortalControllers : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            FlashMaterialsOnHit(50);
-            LeanTween.value(50, 0, 0.2f).setOnUpdate((f => FlashMaterialsOnHit(f))).setOnComplete(    () =>         FlashMaterialsOnHit(0));
-        }
+
     }
 
     private void HideDoor(int id = 0)

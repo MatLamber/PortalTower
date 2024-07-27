@@ -121,6 +121,7 @@ public class EnemyController : MonoBehaviour
 
     private void CheckIfPlayerIsOnAggressionRange()
     {
+        if(target is null) return;
         if (Vector3.Distance(target.position, transform.position) < aggresionRange && !follow)
         {
             navMeshAgent.isStopped = false;
@@ -246,7 +247,7 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.enabled = true;
         yield return new WaitUntil(() => navMeshAgent.isOnNavMesh);
         navMeshAgent.SetDestination(Vector3.zero);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1.2f);
         navMeshAgent.isStopped = true;
         navMeshAgent.speed *= data.speed;
         originalSpeed = navMeshAgent.speed;
