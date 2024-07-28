@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: StarterPistol
   m_EditorClassIdentifier: 
   fireRate: 3
-  lastShootTime: 65.17591
+  lastShootTime: 25.26257
   bulletsPerShot: 1
   spreadAmout: 1
   bulletPrefab: {fileID: 3466685549952159586, guid: 26c993b7c81224044a0e1652f037aa77, type: 3}
-  bulletSpeed: 20
+  bulletSpeed: 100
   stoppingPower: 1
   power: 0.5
   muzzlePrefab: {fileID: 1559235166260600, guid: b1a2ca0eaee494e94a189f046d650adf, type: 3}

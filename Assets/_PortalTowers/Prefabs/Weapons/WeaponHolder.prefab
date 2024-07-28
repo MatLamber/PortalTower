@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95036c3be02ce946b9728a1a26842df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  starterPistol: {fileID: 0}
   pistol: {fileID: 370963477856831721}
   rifle: {fileID: 370963478038489141}
   bazooka: {fileID: 370963476789959639}
@@ -114,6 +115,14 @@ PrefabInstance:
     - target: {fileID: 1262576889685424180, guid: fb1850c6592dcd54ab0a3bc458b67f4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2216127846710657499, guid: fb1850c6592dcd54ab0a3bc458b67f4d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1358
+      objectReference: {fileID: 0}
+    - target: {fileID: 2216127846710657499, guid: fb1850c6592dcd54ab0a3bc458b67f4d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.6047
       objectReference: {fileID: 0}
     - target: {fileID: 2872956972297603623, guid: fb1850c6592dcd54ab0a3bc458b67f4d, type: 3}
       propertyPath: m_Name
@@ -195,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5361071000331870363, guid: 62181b5971c68db40b04f5325f5526a4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.367
+      value: 0.291
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62181b5971c68db40b04f5325f5526a4, type: 3}
@@ -211,6 +220,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3376203952866152505}
     m_Modifications:
+    - target: {fileID: 859037443951460792, guid: 8636b5420e0b9b74cb40d4945568058a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.101
+      objectReference: {fileID: 0}
+    - target: {fileID: 859037443951460792, guid: 8636b5420e0b9b74cb40d4945568058a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.3957
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228057336149859020, guid: 8636b5420e0b9b74cb40d4945568058a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1448309626026771353, guid: 8636b5420e0b9b74cb40d4945568058a, type: 3}
       propertyPath: m_Name
       value: Shorty

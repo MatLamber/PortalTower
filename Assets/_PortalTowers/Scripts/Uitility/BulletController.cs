@@ -25,9 +25,10 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        gameObject.SetActive(false);
         DisableTrail();
         CreateImpactFX(other);
-        ObjectPool.Instance.ReturnObject(gameObject,0);
+        ObjectPool.Instance.ReturnObject(gameObject,0.3f);
         if (other.collider.tag.Equals(enemyTag))
             EventsManager.Instance.OnEnemyHit(other.transform, power);
         

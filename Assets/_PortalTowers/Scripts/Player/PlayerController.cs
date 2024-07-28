@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTargetLock(bool status, Transform targeTransform = null)
     {
-        moveSpeed = status ? 25 : 30;
+        moveSpeed = status ? 30 : 40;
     }
 
     public void LockOnFinalsBoss(Transform finalBossTransform)
