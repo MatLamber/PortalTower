@@ -16,5 +16,5 @@ MonoBehaviour:
   name: Normal
   speed: 1
   hitPoints: 1
-  aggressionRange: 6
+  aggressionRange: 5
   attackRange: 1

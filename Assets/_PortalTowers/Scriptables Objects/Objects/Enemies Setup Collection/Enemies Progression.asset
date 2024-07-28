@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Enemies Progression
   m_EditorClassIdentifier: 
   enemiesSetup:
-  - {fileID: 11400000, guid: cdd92619825f94c72ac32d6f4029103c, type: 2}
-  - {fileID: 11400000, guid: cdd92619825f94c72ac32d6f4029103c, type: 2}
+  - {fileID: 11400000, guid: 88ca705285b2a4a82969b394b77c1841, type: 2}
+  - {fileID: 11400000, guid: 0ed278b86ebad4111b3f4f5681dea490, type: 2}
   - {fileID: 11400000, guid: cdd92619825f94c72ac32d6f4029103c, type: 2}
   - {fileID: 11400000, guid: cdd92619825f94c72ac32d6f4029103c, type: 2}
   - {fileID: 11400000, guid: cdd92619825f94c72ac32d6f4029103c, type: 2}

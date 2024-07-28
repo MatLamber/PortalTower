@@ -19,13 +19,13 @@ public class EnemieBoss : MonoBehaviour
             materials.Add(bodyPart.material);
         }
         EventsManager.Instance.eventLevelFinish += MoveForward;
-        EventsManager.Instance.eventEnemyHit += OnHit;
+     //   EventsManager.Instance.eventEnemyHit += OnHit;
     }
 
     private void OnDestroy()
     {
         EventsManager.Instance.eventLevelFinish -= MoveForward;
-        EventsManager.Instance.eventEnemyHit -= OnHit;
+       // EventsManager.Instance.eventEnemyHit -= OnHit;
     }
 
     private void Update()

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67cd48472750b4fe8abc854301003232, type: 3}
   m_Name: ZombieMuscular
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3344847211514953026, guid: e45c95ff44b93a647a27b55e0b7529a6, type: 3}
+  prefab: {fileID: 3344847211514953026, guid: f0e9d064025d3cc4689af2ede4b00aac, type: 3}
   name: Muscular
   speed: 1
   hitPoints: 5
-  aggressionRange: 6
+  aggressionRange: 7
   attackRange: 1
