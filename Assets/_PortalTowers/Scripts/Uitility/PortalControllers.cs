@@ -63,8 +63,9 @@ public class PortalControllers : MonoBehaviour
         GetComponent<Collider>().enabled = true;
         newObject = ObjectPool.Instance.GetObjet(optionPrefab[currentSelection]);
         newObject.transform.SetParent(optionContainer.transform);
-        newObject.transform.localPosition = Vector3.zero;
-        newObject.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+        newObject.transform.localPosition = Vector3.zero + new Vector3(0, 0, 0.5F);
+        newObject.transform.localScale = new Vector3(2f, 2f, 2f);
+        newObject.transform.localRotation = Quaternion.Euler(0, 90, 90);
         transform.DOLocalMoveY(1.4f, 0.3f).SetEase(Ease.OutBack).SetDelay(0.3f).OnComplete(() =>
         {
             canBeCrossed = true;
@@ -82,8 +83,10 @@ public class PortalControllers : MonoBehaviour
             options[currentSelection].ToString().Equals(OptionType.RocketLauncher.ToString()) ||
             options[currentSelection].ToString().Equals(OptionType.Shorty.ToString()))
         {
-            LeanTween.rotateAround(optionContainer.gameObject, optionContainer.transform.forward, 360f, 2f)
-                .setLoopClamp();
+            /*LeanTween.rotateAround(optionContainer.gameObject, optionContainer.transform.forward, 360f, 2f)
+                .setLoopClamp();*/
+            optionContainer.transform.DOLocalMoveZ(optionContainer.transform.localPosition.z + 0.3f, 1)
+                .SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
         }
         else
         {

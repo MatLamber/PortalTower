@@ -865,6 +865,7 @@ MonoBehaviour:
   - {fileID: 6055885390129445064}
   - {fileID: 6747475764847587855}
   flashColor: {r: 0.9150943, g: 0.39128622, b: 0.35826805, a: 0}
+  bloodSplatEffect: {fileID: 128904, guid: 431dfc66a23c14b9392cf837e4dcd94d, type: 3}
 --- !u!114 &3344847211514953028
 MonoBehaviour:
   m_ObjectHideFlags: 0

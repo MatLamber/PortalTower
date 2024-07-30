@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject damageText;
     [SerializeField] private List<Renderer> bodyParts;
     [SerializeField] private Color flashColor;
+    [SerializeField] private GameObject bloodSplatEffect;
     private Collider collider => GetComponent<Collider>();
     private NavMeshAgent navMeshAgent => GetComponent<NavMeshAgent>();
     private EnemyAnimationController animator => GetComponent<EnemyAnimationController>();
@@ -32,7 +33,7 @@ public class EnemyController : MonoBehaviour
     private float hitPoints;
     private float originalSpeed;
     private float flyAwayForce = 450;
-    private float extraForce = 500;
+    private float extraForce = 900;
 
     private List<Material> materials = new List<Material>();
     private List<Material> originalMaterials = new List<Material>();
@@ -134,6 +135,13 @@ public class EnemyController : MonoBehaviour
     {
         isDead = true;
         collider.tag = "Untagged";
+        GameObject bloodSplat = ObjectPool.Instance.GetObjet(bloodSplatEffect);
+        bloodSplat.transform.SetParent(transform);
+        bloodSplat.transform.localScale = new Vector3(1.6f ,1.6f, 1.6f);
+        bloodSplat.transform.localPosition = Vector3.zero + new Vector3(0,1,0);
+        bloodSplat.transform.localRotation = Quaternion.LookRotation(transform.forward);
+        bloodSplat.GetComponent<ParticleSystem>().Play();
+        ObjectPool.Instance.ReturnObject(bloodSplat,1.5F);
         DisableOutLine(false,transform);
         ChangeToDeadMaterial();
         healthUI.SetActive(false);
@@ -247,7 +255,7 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.enabled = true;
         yield return new WaitUntil(() => navMeshAgent.isOnNavMesh);
         navMeshAgent.SetDestination(Vector3.zero);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1.3f);
         navMeshAgent.isStopped = true;
         navMeshAgent.speed *= data.speed;
         originalSpeed = navMeshAgent.speed;
